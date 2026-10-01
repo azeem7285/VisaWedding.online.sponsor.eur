@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Login | VisaWedding.online.sponsor.eur</title>
+  <title>Login | VisaWedding</title>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -13,420 +16,310 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    header {
-      background: #ffffff;
-      padding: 20px 7%;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .container {
-      min-height: 82vh;
+      min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      align-items: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0b1f3a, #163d66);
     }
 
-    .login-box {
+    .box {
       width: 100%;
       max-width: 460px;
       background: #ffffff;
-      padding: 38px;
-      border-radius: 14px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
     }
 
     h1 {
+      margin: 0;
       text-align: center;
-      margin-top: 0;
-      margin-bottom: 10px;
+      color: #0b63ce;
+      font-size: 32px;
     }
 
     .subtitle {
       text-align: center;
-      color: #6b7280;
-      line-height: 1.6;
-      margin-bottom: 30px;
+      color: #666;
+      margin: 10px 0 28px;
+      font-size: 17px;
     }
 
     label {
       display: block;
-      margin-top: 18px;
-      margin-bottom: 8px;
+      margin: 15px 0 7px;
       font-weight: bold;
+      color: #333;
     }
 
-    input[type="email"],
-    input[type="password"],
-    input[type="text"] {
+    input {
       width: 100%;
       padding: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 7px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
       font-size: 16px;
     }
 
     input:focus {
       outline: none;
-      border-color: #1d4ed8;
+      border-color: #0b63ce;
     }
 
-    .password-wrapper {
+    .password-box {
       position: relative;
     }
 
+    .password-box input {
+      padding-right: 75px;
+    }
+
     .show-password {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #4b5563;
-    }
-
-    .show-password input {
-      margin-right: 6px;
-    }
-
-    .options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 18px;
-      gap: 15px;
-      font-size: 14px;
-    }
-
-    .remember {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .forgot {
-      color: #1d4ed8;
-      text-decoration: none;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #0b63ce;
       font-weight: bold;
+      cursor: pointer;
+      width: auto;
+      margin: 0;
+      padding: 5px;
     }
 
     .login-button {
       width: 100%;
+      margin-top: 24px;
       padding: 14px;
-      margin-top: 25px;
       border: none;
-      border-radius: 7px;
-      background: #1d4ed8;
+      border-radius: 9px;
+      background: #0b63ce;
       color: white;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .login-button:hover {
-      background: #1e40af;
+    .login-button:disabled {
+      opacity: .65;
+      cursor: not-allowed;
     }
 
-    .message {
+    #message {
       display: none;
+      margin-top: 16px;
       padding: 12px;
-      margin-top: 18px;
-      border-radius: 7px;
+      border-radius: 8px;
       font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .error {
-      background: #fef2f2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-
-    .create-account {
       text-align: center;
-      margin-top: 28px;
-      padding-top: 22px;
-      border-top: 1px solid #e5e7eb;
-      color: #6b7280;
     }
 
-    .create-account a {
-      color: #1d4ed8;
+    #message.error {
+      display: block;
+      background: #ffe8e8;
+      color: #a4001d;
+    }
+
+    #message.success {
+      display: block;
+      background: #e6f7eb;
+      color: #16753a;
+    }
+
+    .links {
+      margin-top: 22px;
+      text-align: center;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .links a {
+      color: #0b63ce;
+      font-weight: bold;
       text-decoration: none;
-      font-weight: bold;
     }
 
-    .services {
-      margin-top: 28px;
-      background: #f8fafc;
-      border-radius: 9px;
-      padding: 18px;
-    }
-
-    .services p {
-      margin-top: 0;
+    .home {
+      margin-top: 15px;
       text-align: center;
-      font-weight: bold;
     }
 
-    .services ul {
-      margin-bottom: 0;
-      line-height: 1.9;
-      color: #4b5563;
-    }
-
-    footer {
-      background: #111827;
-      color: white;
-      text-align: center;
-      padding: 25px;
-    }
-
-    @media (max-width: 520px) {
-      .login-box {
-        padding: 25px 20px;
-      }
-
-      .options {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+    .home a {
+      color: #555;
+      text-decoration: none;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">
-    VisaWedding.online.sponsor.eur
-  </div>
-</header>
+  <main class="box">
 
-<div class="container">
-
-  <div class="login-box">
-
-    <h1>Login to Your Account</h1>
-
-    <p class="subtitle">
-      Login to access your Visa, Marriage/Wedding
-      and European Sponsorship dashboard.
-    </p>
+    <h1>VisaWedding</h1>
+    <div class="subtitle">Login to your account</div>
 
     <form id="loginForm">
 
-      <label for="email">
-        Email Address
-      </label>
-
+      <label for="email">Email Address</label>
       <input
-        type="email"
         id="email"
+        type="email"
         autocomplete="email"
         placeholder="Enter your email address"
         required
       >
 
-      <label for="password">
-        Password
-      </label>
+      <label for="password">Password</label>
 
-      <div class="password-wrapper">
-
+      <div class="password-box">
         <input
-          type="password"
           id="password"
+          type="password"
           autocomplete="current-password"
           placeholder="Enter your password"
           required
         >
 
-      </div>
-
-      <div class="show-password">
-
-        <label style="font-weight:normal; margin:0;">
-
-          <input
-            type="checkbox"
-            id="showPassword"
-          >
-
-          Show Password
-
-        </label>
-
-      </div>
-
-      <div class="options">
-
-        <label class="remember" style="margin:0; font-weight:normal;">
-
-          <input
-            type="checkbox"
-            id="rememberMe"
-          >
-
-          Remember Me
-
-        </label>
-
-        <a
-          class="forgot"
-          href="forgot-password.html"
+        <button
+          type="button"
+          class="show-password"
+          id="showPassword"
         >
-          Forgot Password?
-        </a>
-
+          Show
+        </button>
       </div>
 
       <button
-        class="login-button"
         type="submit"
+        class="login-button"
+        id="loginButton"
       >
         Login
       </button>
 
+      <div id="message"></div>
+
     </form>
 
-    <div
-      id="loginMessage"
-      class="message error"
-    ></div>
-
-
-    <div class="create-account">
-
+    <div class="links">
       Don't have an account?
-
-      <a href="signup.html">
-        Create Account
-      </a>
-
+      <a href="signup.html">Create Account</a>
     </div>
 
-
-    <div class="services">
-
-      <p>
-        Your account gives you access to:
-      </p>
-
-      <ul>
-        <li>Visa Application</li>
-        <li>Marriage / Wedding</li>
-        <li>European Sponsorship</li>
-      </ul>
-
+    <div class="home">
+      <a href="index.html">← Back to Home</a>
     </div>
 
-  </div>
+  </main>
 
-</div>
+  <script>
+    const SUPABASE_URL =
+      "https://ioasowcjabrozmuyzbgf.supabase.co";
 
+    const SUPABASE_KEY =
+      "sb_publishable_MdFHrRzXCKkyeaAHSoRA1Q_UDVa6xs2";
 
-<footer>
-  © 2026 VisaWedding.online.sponsor.eur
-  — All Rights Reserved
-</footer>
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
+    const loginForm =
+      document.getElementById("loginForm");
 
-<script>
+    const loginButton =
+      document.getElementById("loginButton");
 
-const loginForm =
-document.getElementById("loginForm");
+    const message =
+      document.getElementById("message");
 
-const emailInput =
-document.getElementById("email");
+    const passwordInput =
+      document.getElementById("password");
 
-const passwordInput =
-document.getElementById("password");
+    const showPassword =
+      document.getElementById("showPassword");
 
-const showPassword =
-document.getElementById("showPassword");
-
-const loginMessage =
-document.getElementById("loginMessage");
-
-
-showPassword.addEventListener(
-  "change",
-  function() {
-
-    if (this.checked) {
-      passwordInput.type = "text";
-    } else {
-      passwordInput.type = "password";
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = type;
     }
 
-  }
-);
+    showPassword.addEventListener("click", function () {
 
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        showPassword.textContent = "Hide";
+      } else {
+        passwordInput.type = "password";
+        showPassword.textContent = "Show";
+      }
 
-loginForm.addEventListener(
-  "submit",
-  function(event) {
+    });
 
-    event.preventDefault();
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
 
-    const email =
-    emailInput.value.trim();
+        event.preventDefault();
 
-    const password =
-    passwordInput.value;
+        const email =
+          document.getElementById("email")
+            .value.trim();
 
+        const password =
+          passwordInput.value;
 
-    loginMessage.style.display = "none";
+        loginButton.disabled = true;
+        loginButton.textContent = "Logging in...";
 
+        showMessage(
+          "Checking your account...",
+          "success"
+        );
 
-    if (!email || !password) {
+        try {
 
-      loginMessage.innerText =
-      "Please enter your email address and password.";
+          const { data, error } =
+            await supabaseClient.auth
+              .signInWithPassword({
+                email: email,
+                password: password
+              });
 
-      loginMessage.style.display =
-      "block";
+          if (error) {
+            throw error;
+          }
 
-      return;
-    }
+          if (!data.user) {
+            throw new Error(
+              "Login could not be completed."
+            );
+          }
 
+          showMessage(
+            "Login successful. Opening dashboard...",
+            "success"
+          );
 
-    /*
-      SECURE LOGIN CONNECTION
+          setTimeout(function () {
+            window.location.href =
+              "dashboard.html";
+          }, 1000);
 
-      A backend authentication service will be
-      connected here.
+        } catch (error) {
 
-      The server will:
+          console.error(
+            "Login error:",
+            error
+          );
 
-      1. Check the email address.
-      2. Verify the password securely.
-      3. Confirm that the email was verified.
-      4. Create a secure login session.
-      5. Redirect the user to dashboard.html.
+          let errorText =
+            error.message ||
+            "Login failed. Please try again.";
 
-      Passwords must never be stored directly
-      inside this HTML file.
-    */
-
-
-    loginMessage.innerText =
-    "Secure login service is not connected yet.";
-
-    loginMessage.style.display =
-    "block";
-
-  }
-);
-
-</script>
-
-</body>
-</html>
+          if (
