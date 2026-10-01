@@ -1,568 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Account | VisaWedding.online.sponsor.eur</title>
+  <title>Create Account | VisaWedding</title>
 
-<style>
-*{
-    box-sizing:border-box;
-}
+  <!-- Supabase JavaScript Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f7fb;
-    color:#172033;
-    min-height:100vh;
-}
-
-header{
-    background:#ffffff;
-    padding:18px 6%;
-    text-align:center;
-    box-shadow:0 2px 10px rgba(0,0,0,.07);
-}
-
-.logo{
-    font-size:21px;
-    font-weight:bold;
-}
-
-.wrapper{
-    min-height:calc(100vh - 130px);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:40px 20px;
-}
-
-.signup-box{
-    width:100%;
-    max-width:540px;
-    background:#ffffff;
-    padding:35px;
-    border-radius:16px;
-    box-shadow:0 8px 30px rgba(0,0,0,.08);
-}
-
-.icon{
-    width:70px;
-    height:70px;
-    margin:0 auto 20px;
-    border-radius:50%;
-    background:#eff6ff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-}
-
-h1{
-    text-align:center;
-    margin:0 0 10px;
-    font-size:29px;
-}
-
-.subtitle{
-    text-align:center;
-    color:#64748b;
-    line-height:1.6;
-    margin-bottom:28px;
-}
-
-label{
-    display:block;
-    font-weight:bold;
-    margin:17px 0 7px;
-}
-
-input{
-    width:100%;
-    padding:13px;
-    border:1px solid #cbd5e1;
-    border-radius:8px;
-    font-size:15px;
-    outline:none;
-}
-
-input:focus{
-    border-color:#1d4ed8;
-}
-
-.password-wrap{
-    position:relative;
-}
-
-.password-wrap input{
-    padding-right:75px;
-}
-
-.show-password{
-    position:absolute;
-    right:10px;
-    top:50%;
-    transform:translateY(-50%);
-    border:0;
-    background:none;
-    color:#1d4ed8;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.password-info{
-    color:#64748b;
-    font-size:13px;
-    line-height:1.5;
-    margin-top:7px;
-}
-
-.terms{
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    margin-top:22px;
-}
-
-.terms input{
-    width:auto;
-    margin-top:4px;
-}
-
-.terms label{
-    margin:0;
-    font-weight:normal;
-    line-height:1.6;
-}
-
-.signup-button{
-    width:100%;
-    margin-top:24px;
-    padding:14px;
-    border:0;
-    border-radius:8px;
-    background:#1d4ed8;
-    color:#ffffff;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.signup-button:hover{
-    opacity:.92;
-}
-
-.message{
-    display:none;
-    padding:14px;
-    margin-top:18px;
-    border-radius:8px;
-    line-height:1.5;
-    text-align:center;
-}
-
-.message.error{
-    display:block;
-    background:#fef2f2;
-    border:1px solid #fecaca;
-    color:#b91c1c;
-}
-
-.message.info{
-    display:block;
-    background:#eff6ff;
-    border:1px solid #bfdbfe;
-    color:#1d4ed8;
-}
-
-.security{
-    margin-top:24px;
-    background:#ecfdf5;
-    border:1px solid #a7f3d0;
-    border-radius:8px;
-    padding:15px;
-    color:#475569;
-    font-size:13px;
-    line-height:1.6;
-}
-
-.login{
-    text-align:center;
-    margin-top:23px;
-    color:#64748b;
-}
-
-.login a{
-    color:#1d4ed8;
-    font-weight:bold;
-    text-decoration:none;
-}
-
-footer{
-    background:#111827;
-    color:#ffffff;
-    text-align:center;
-    padding:22px;
-    font-size:14px;
-}
-
-@media(max-width:550px){
-
-    .signup-box{
-        padding:27px 18px;
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    h1{
-        font-size:25px;
+    body {
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0b1f3a, #163d66);
+      padding: 20px;
     }
-}
-</style>
+
+    .signup-box {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .logo {
+      text-align: center;
+      color: #0b63ce;
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666666;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-weight: bold;
+      color: #333333;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cccccc;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #0b63ce;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #555555;
+    }
+
+    .terms input {
+      width: auto;
+      margin-top: 2px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #0b63ce;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #084d9e;
+    }
+
+    button:disabled {
+      background: #8aaed8;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 16px;
+      padding: 11px;
+      border-radius: 8px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .error {
+      display: block !important;
+      background: #ffe8e8;
+      color: #b00020;
+    }
+
+    .success {
+      display: block !important;
+      background: #e6f7eb;
+      color: #16753a;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #666666;
+    }
+
+    .login-link a {
+      color: #0b63ce;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 
 <body>
 
-<header>
+  <div class="signup-box">
+
+    <div class="logo">VisaWedding</div>
+    <div class="subtitle">
+      Create your account
+    </div>
+
+    <form id="signupForm">
+
+      <label for="fullName">
+        Full Name
+      </label>
+
+      <input
+        type="text"
+        id="fullName"
+        placeholder="Enter your full name"
+        autocomplete="name"
+        required
+      >
+
+      <label for="email">
+        Email Address
+      </label>
 
-<div class="logo">
-VisaWedding.online.sponsor.eur
-</div>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        autocomplete="email"
+        required
+      >
 
-</header>
+      <label for="password">
+        Password
+      </label>
 
+      <input
+        type="password"
+        id="password"
+        placeholder="Minimum 8 characters"
+        autocomplete="new-password"
+        required
+      >
 
-<main class="wrapper">
+      <label for="confirmPassword">
+        Confirm Password
+      </label>
 
-<div class="signup-box">
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Enter password again"
+        autocomplete="new-password"
+        required
+      >
 
-<div class="icon">
-👤
-</div>
+      <div class="terms">
 
-<h1>Create Your Account</h1>
+        <input
+          type="checkbox"
+          id="terms"
+          required
+        >
 
-<p class="subtitle">
-Create one secure account to access Visa Applications,
-Marriage Profiles and European Sponsor Services.
-</p>
+        <label
+          for="terms"
+          style="margin:0; font-weight:normal;"
+        >
+          I agree to the Terms & Conditions
+          and Privacy Policy.
+        </label>
 
+      </div>
 
-<form id="signupForm">
+      <button
+        type="submit"
+        id="signupButton"
+      >
+        Create Account
+      </button>
 
-<label for="fullName">
-Full Name
-</label>
+      <div id="message"></div>
 
-<input
-type="text"
-id="fullName"
-name="fullName"
-placeholder="Enter your full name"
-autocomplete="name"
-required>
+    </form>
 
+    <div class="login-link">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </div>
 
-<label for="email">
-Email Address
-</label>
+  </div>
 
-<input
-type="email"
-id="email"
-name="email"
-placeholder="Enter your email address"
-autocomplete="email"
-required>
 
+  <script>
 
-<label for="password">
-Create Password
-</label>
+    /* ----------------------------------
+       SUPABASE CONNECTION
+    ---------------------------------- */
 
-<div class="password-wrap">
+    const SUPABASE_URL =
+      "https://ioasowcjabrozmuyzbgf.supabase.co";
 
-<input
-type="password"
-id="password"
-name="password"
-placeholder="Create a secure password"
-autocomplete="new-password"
-minlength="8"
-required>
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_MdFHrRzXCKkyeaAHSoRA1Q_UDVa6xs2";
 
-<button
-type="button"
-class="show-password"
-onclick="togglePassword('password', this)">
-Show
-</button>
 
-</div>
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
 
-<div class="password-info">
-Use at least 8 characters, including an uppercase letter,
-a lowercase letter and a number.
-</div>
 
+    /* ----------------------------------
+       PAGE ELEMENTS
+    ---------------------------------- */
 
-<label for="confirmPassword">
-Confirm Password
-</label>
+    const form =
+      document.getElementById("signupForm");
 
-<div class="password-wrap">
+    const message =
+      document.getElementById("message");
 
-<input
-type="password"
-id="confirmPassword"
-name="confirmPassword"
-placeholder="Enter your password again"
-autocomplete="new-password"
-minlength="8"
-required>
+    const button =
+      document.getElementById("signupButton");
 
-<button
-type="button"
-class="show-password"
-onclick="togglePassword('confirmPassword', this)">
-Show
-</button>
 
-</div>
+    function showMessage(text, type) {
 
-
-<div class="terms">
-
-<input
-type="checkbox"
-id="terms"
-required>
-
-<label for="terms">
-I confirm that the information provided by me is accurate
-and I agree to the Terms of Service and Privacy Policy.
-</label>
-
-</div>
-
-
-<button
-type="submit"
-class="signup-button">
-Create Account & Verify Email
-</button>
-
-</form>
-
-
-<div
-id="message"
-class="message">
-</div>
-
-
-<div class="security">
-
-<strong>Email Verification</strong>
-<br><br>
-
-After creating your account, you will be taken to the
-email verification page. A secure authentication system
-will send a 6-digit verification code to your registered
-email address once the backend is connected.
-
-<br><br>
-
-Your password must be handled only by the secure
-authentication system. It must never be stored in this
-HTML page or in a public GitHub repository.
-
-</div>
-
-
-<div class="login">
-
-Already have an account?
-
-<a href="login.html">
-Log In
-</a>
-
-</div>
-
-</div>
-
-</main>
-
-
-<footer>
-© 2026 VisaWedding.online.sponsor.eur — All Rights Reserved
-</footer>
-
-
-<script>
-
-const signupForm =
-document.getElementById("signupForm");
-
-const message =
-document.getElementById("message");
-
-
-function togglePassword(fieldId, button){
-
-    const field =
-    document.getElementById(fieldId);
-
-    if(field.type === "password"){
-
-        field.type = "text";
-        button.textContent = "Hide";
-
-    }else{
-
-        field.type = "password";
-        button.textContent = "Show";
+      message.textContent = text;
+      message.className = type;
 
     }
-}
 
 
-function showMessage(text,type){
+    /* ----------------------------------
+       CREATE ACCOUNT
+    ---------------------------------- */
 
-    message.textContent = text;
-    message.className = "message " + type;
+    form.addEventListener(
+      "submit",
+      async function(event) {
 
-}
-
-
-function passwordIsStrong(password){
-
-    const hasUpper =
-    /[A-Z]/.test(password);
-
-    const hasLower =
-    /[a-z]/.test(password);
-
-    const hasNumber =
-    /[0-9]/.test(password);
-
-    return (
-        password.length >= 8 &&
-        hasUpper &&
-        hasLower &&
-        hasNumber
-    );
-}
+        event.preventDefault();
 
 
-signupForm.addEventListener(
-"submit",
-function(event){
-
-    event.preventDefault();
-
-    const fullName =
-    document
-    .getElementById("fullName")
-    .value.trim();
-
-    const email =
-    document
-    .getElementById("email")
-    .value.trim();
-
-    const password =
-    document
-    .getElementById("password")
-    .value;
-
-    const confirmPassword =
-    document
-    .getElementById("confirmPassword")
-    .value;
+        const fullName =
+          document
+            .getElementById("fullName")
+            .value
+            .trim();
 
 
-    if(!fullName || !email){
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
 
-        showMessage(
-            "Please complete your name and email address.",
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        const confirmPassword =
+          document
+            .getElementById("confirmPassword")
+            .value;
+
+
+        /* Password validation */
+
+        if (password.length < 8) {
+
+          showMessage(
+            "Password must contain at least 8 characters.",
             "error"
-        );
+          );
 
-        return;
-    }
+          return;
+        }
 
 
-    if(!passwordIsStrong(password)){
+        if (
+          !/[A-Z]/.test(password) ||
+          !/[a-z]/.test(password) ||
+          !/[0-9]/.test(password)
+        ) {
 
-        showMessage(
-            "Your password must contain at least 8 characters, including an uppercase letter, lowercase letter and number.",
+          showMessage(
+            "Password must include an uppercase letter, lowercase letter and number.",
             "error"
-        );
+          );
 
-        return;
-    }
+          return;
+        }
 
 
-    if(password !== confirmPassword){
+        if (password !== confirmPassword) {
 
-        showMessage(
-            "The two passwords do not match.",
+          showMessage(
+            "Passwords do not match.",
             "error"
-        );
+          );
 
-        return;
-    }
-
-
-    /*
-    IMPORTANT:
-
-    We intentionally do NOT store the password in
-    localStorage or sessionStorage.
-
-    Once the secure backend is connected, the password
-    will be sent securely to the authentication provider.
-    */
-
-
-    sessionStorage.setItem(
-        "pendingVerificationEmail",
-        email
-    );
-
-    sessionStorage.setItem(
-        "pendingVerificationName",
-        fullName
-    );
-
-
-    /*
-    CURRENT FRONT-END FLOW:
-
-    This takes the applicant to verify-email.html.
-
-    BACKEND FLOW LATER:
-
-    1. Send signup details securely to authentication server.
-    2. Create pending user account.
-    3. Generate a random 6-digit verification code server-side.
-    4. Email the code to the applicant.
-    5. Redirect to verify-email.html.
-    6. User enters the code.
-    7. Server validates code and expiry.
-    8. Account becomes Email Verified.
-    */
-
-
-    window.location.href =
-    "verify-email.html";
-
-});
-
-</script>
-
-</body>
-</html>
+          return;
+        }
