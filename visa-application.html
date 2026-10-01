@@ -394,3 +394,102 @@ Australia
 <span class="flag">🇳🇿</span>
 New Zealand
 </div>
+</div>
+
+<!-- STEP 2: VISA TYPE -->
+<div id="visaTypeStep" style="display:none; margin-top:40px;">
+  <h2>2. Select Visa Type</h2>
+  <p>Which visa type would you like to apply for?</p>
+
+  <div class="country-grid">
+    <div class="option-card visa-type" data-value="Tourist / Visit Visa">
+      Tourist / Visit Visa
+    </div>
+
+    <div class="option-card visa-type" data-value="Family & Friends Visit">
+      Family & Friends Visit
+    </div>
+
+    <div class="option-card visa-type" data-value="Business Visa">
+      Business Visa
+    </div>
+
+    <div class="option-card visa-type" data-value="Work Visa">
+      Work Visa
+    </div>
+
+    <div class="option-card visa-type" data-value="Transit Visa">
+      Transit Visa
+    </div>
+
+    <div class="option-card visa-type" data-value="Spouse / Family Visa">
+      Spouse / Family Visa
+    </div>
+
+    <div class="option-card visa-type" data-value="Sponsor / Other">
+      Sponsor / Other
+    </div>
+  </div>
+
+  <button id="continueBtn"
+    style="display:none; margin-top:25px; padding:14px 28px;
+    background:#1236d4; color:white; border:0;
+    border-radius:8px; font-size:17px; cursor:pointer;">
+    Continue
+  </button>
+</div>
+
+<script>
+let selectedCountry = "";
+let selectedVisaType = "";
+
+const countries = document.querySelectorAll(".country");
+const visaTypeStep = document.getElementById("visaTypeStep");
+const visaTypes = document.querySelectorAll(".visa-type");
+const continueBtn = document.getElementById("continueBtn");
+
+countries.forEach(function(country) {
+  country.addEventListener("click", function() {
+
+    countries.forEach(function(item) {
+      item.classList.remove("selected");
+    });
+
+    this.classList.add("selected");
+    selectedCountry = this.dataset.value;
+
+    visaTypeStep.style.display = "block";
+    visaTypeStep.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+});
+
+visaTypes.forEach(function(type) {
+  type.addEventListener("click", function() {
+
+    visaTypes.forEach(function(item) {
+      item.classList.remove("selected");
+    });
+
+    this.classList.add("selected");
+    selectedVisaType = this.dataset.value;
+    continueBtn.style.display = "inline-block";
+  });
+});
+
+continueBtn.addEventListener("click", function() {
+  sessionStorage.setItem("visaDestination", selectedCountry);
+  sessionStorage.setItem("visaType", selectedVisaType);
+
+  alert(
+    "Destination: " + selectedCountry +
+    "\nVisa Type: " + selectedVisaType +
+    "\n\nSelection saved successfully."
+  );
+});
+</script>
+
+</body>
+</html>
