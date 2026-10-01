@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | VisaWedding.online.sponsor.eur</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+/* HEADER */
+
+header {
+    background: #ffffff;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-email {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.logout {
+    background: #dc2626;
+    color: white;
+    text-decoration: none;
+    padding: 10px 17px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+/* MAIN */
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 55px 25px 80px;
+}
+
+.welcome {
+    margin-bottom: 40px;
+}
+
+.welcome h1 {
+    margin-bottom: 10px;
+    font-size: 34px;
+}
+
+.welcome p {
+    color: #6b7280;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+/* SERVICE CARDS */
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 32px 27px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.09);
+}
+
+.icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #eaf1ff;
+    color: #1d4ed8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 22px;
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 23px;
+}
+
+.card p {
+    color: #6b7280;
+    line-height: 1.7;
+    min-height: 110px;
+}
+
+.card-button {
+    display: inline-block;
+    margin-top: 15px;
+    background: #1d4ed8;
+    color: white;
+    text-decoration: none;
+    padding: 13px 20px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+/* APPLICATION SECTION */
+
+.applications {
+    margin-top: 55px;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+}
+
+.applications h2 {
+    margin-top: 0;
+}
+
+.application-empty {
+    margin-top: 20px;
+    padding: 25px;
+    background: #f8fafc;
+    border-radius: 9px;
+    color: #6b7280;
+    text-align: center;
+}
+
+/* ACCOUNT INFO */
+
+.account-info {
+    margin-top: 30px;
+    background: #eef4ff;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.account-info h3 {
+    margin-top: 0;
+}
+
+.verified {
+    color: #15803d;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 27px;
+}
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+
+    .services {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .header-right {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card p {
+        min-height: auto;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+VisaWedding.online.sponsor.eur
+</div>
+
+
+<div class="header-right">
+
+<span class="user-email" id="userEmail">
+Verified User
+</span>
+
+<a href="login.html" class="logout" id="logoutButton">
+Logout
+</a>
+
+</div>
+
+</header>
+
+
+<main>
+
+
+<section class="welcome">
+
+<h1>Welcome to Your Dashboard</h1>
+
+<p>
+Choose the service you would like to use.
+From your account you can apply for a visa,
+access marriage/wedding services,
+or submit an application for European sponsorship.
+</p>
+
+</section>
+
+
+
+<section class="services">
+
+
+<!-- VISA APPLICATION -->
+
+<div class="card">
+
+<div class="icon">
+1
+</div>
+
+<h2>Apply for Visa</h2>
+
+<p>
+Start a new visa application. Enter your personal,
+passport and travel information, select your destination,
+upload the required documents and submit your application.
+</p>
+
+<a href="visa-application.html" class="card-button">
+Start Visa Application
+</a>
+
+</div>
+
+
+
+<!-- MARRIAGE -->
+
+<div class="card">
+
+<div class="icon">
+2
+</div>
+
+<h2>Marriage / Wedding</h2>
+
+<p>
+Access the Marriage and Wedding section
