@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Account | VisaWedding.online.sponsor.eur</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+header {
+    background: #ffffff;
+    padding: 20px 7%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.container {
+    min-height: 82vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.box {
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    padding: 38px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #1d4ed8;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 24px;
+    border: none;
+    border-radius: 7px;
+    background: #1d4ed8;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1e40af;
+}
+
+button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.message {
+    display: none;
+    padding: 12px;
+    margin-top: 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.success {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+#verificationSection {
+    display: none;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #e5e7eb;
+}
+
+#verificationCode {
+    text-align: center;
+    letter-spacing: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.email-display {
+    font-weight: bold;
+    color: #1d4ed8;
+}
+
+.resend {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.resend button {
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background: none;
+    color: #1d4ed8;
+    font-size: 14px;
+}
+
+.login {
+    text-align: center;
+    margin-top: 28px;
+    color: #6b7280;
+}
+
+.login a {
+    color: #1d4ed8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+@media(max-width:520px) {
+    .box {
+        padding: 25px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        VisaWedding.online.sponsor.eur
+    </div>
+</header>
+
+<div class="container">
+
+<div class="box">
+
+<h1>Create Your Account</h1>
+
+<p class="subtitle">
+Create one secure account to access Visa Application,
+Marriage/Wedding and European Sponsorship services.
+</p>
+
+<div id="registrationSection">
+
+<form id="registrationForm">
+
+<label for="email">
+Email Address
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter your email address"
+required
+>
+
+<label for="password">
+Create Password
+</label>
+
+<input
+type="password"
+id="password"
+placeholder="Create a secure password"
+minlength="8"
+required
+>
+
+<label for="confirmPassword">
+Confirm Password
+</label>
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Enter your password again"
+minlength="8"
+required
+>
+
+<button type="submit" id="sendCodeButton">
+Send 6-Digit Verification Code
+</button>
+
+</form>
+
+<div id="registrationError" class="message error"></div>
+
+</div>
+
+
+<div id="verificationSection">
+
+<h2>Verify Your Email</h2>
+
+<p>
+We have sent a 6-digit verification code to:
+</p>
+
+<p class="email-display" id="emailDisplay"></p>
+
+<p>
+Enter the verification code below to activate your account.
+</p>
+
+<form id="verificationForm">
+
+<label for="verificationCode">
+6-Digit Verification Code
+</label>
+
+<input
+type="text"
+id="verificationCode"
+inputmode="numeric"
+autocomplete="one-time-code"
+maxlength="6"
+pattern="[0-9]{6}"
+placeholder="000000"
+required
+>
+
+<button type="submit">
+Verify & Create Account
+</button>
+
+</form>
+
+<div id="verificationMessage" class="message"></div>
+
+<div class="resend">
+Didn't receive the code?
+<button type="button" id="resendButton">
+Resend Code
+</button>
+</div>
+
+</div>
+
+
+<div class="login">
+
+Already have an account?
+
+<a href="login.html">
+Login
+</a>
+
+</div>
+
+</div>
+</div>
+
+
+<footer>
+© 2026 VisaWedding.online.sponsor.eur
+— All Rights Reserved
+</footer>
+
+
+<script>
+
+/*
+IMPORTANT:
+The visual registration system is ready.
+
+A secure server/email service must later be connected
+to the functions below to actually send and verify OTP codes.
+
+Never place your email password or private API secret
+inside this HTML file.
+*/
+
+const registrationForm =
+document.getElementById("registrationForm");
+
+const verificationForm =
+document.getElementById("verificationForm");
+
+const verificationSection =
+document.getElementById("verificationSection");
+
+const registrationError =
+document.getElementById("registrationError");
+
+const verificationMessage =
+document.getElementById("verificationMessage");
+
+const emailDisplay =
+document.getElementById("emailDisplay");
+
+const resendButton =
+document.getElementById("resendButton");
+
+
+registrationForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const password =
+    document.getElementById("password").value;
+
+    const confirmPassword =
+    document.getElementById("confirmPassword").value;
+
+
+    registrationError.style.display = "none";
+
+
+    if(password.length < 8) {
+
+        registrationError.innerText =
+        "Your password must contain at least 8 characters.";
+
+        registrationError.style.display = "block";
+
+        return;
+    }
+
+
+    if(password !== confirmPassword) {
+
+        registrationError.innerText =
+        "The passwords do not match. Please enter them again.";
+
+        registrationError.style.display = "block";
+
+        return;
+    }
+
+
+    /*
+    SERVER CONNECTION WILL BE ADDED HERE.
+
+    This request will later:
+
+    1. Receive the email address.
+    2. Generate a secure 6-digit OTP.
+    3. Store only the required secure verification data.
+    4. Send the OTP to the user's email.
+    5. Return success to this page.
+    */
+
+
+    emailDisplay.innerText = email;
+
+    verificationSection.style.display = "block";
+
+    verificationSection.scrollIntoView({
+        behavior: "smooth"
+    });
+
+});
+
+
+verificationForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const code =
+    document.getElementById("verificationCode").value.trim();
+
+
+    if(!/^[0-9]{6}$/.test(code)) {
+
+        verificationMessage.className =
+        "message error";
+
+        verificationMessage.innerText =
+        "Please enter a valid 6-digit verification code.";
+
+        verificationMessage.style.display =
+        "block";
+
+        return;
+    }
+
+
+    /*
+    SERVER VERIFICATION WILL BE ADDED HERE.
+
+    The server will verify the OTP.
+
+    If successful:
+
+    - Email becomes verified.
+    - User account becomes active.
+    - User can login.
+    - User will be sent to dashboard.html.
+    */
+
+
+    verificationMessage.className =
+    "message success";
+
+    verificationMessage.innerText =
+    "Verification request received.";
+
+    verificationMessage.style.display =
+    "block";
+
+});
+
+
+resendButton.addEventListener("click", function() {
+
+    /*
+    SERVER RESEND OTP CONNECTION
+    WILL BE ADDED HERE.
+    */
+
+    verificationMessage.className =
+    "message success";
+
+    verificationMessage.innerText =
+    "A new verification code can be requested.";
+
+    verificationMessage.style.display =
+    "block";
+
+});
+
+</script>
+
+</body>
+</html>
