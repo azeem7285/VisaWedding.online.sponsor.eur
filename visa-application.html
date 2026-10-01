@@ -10,211 +10,288 @@
 *{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f7fb;
-color:#172033;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f7fb;
+    color:#172033;
 }
 
 header{
-background:white;
-padding:18px 6%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,.07);
+    background:#fff;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.07);
 }
 
-.logo{font-size:21px;font-weight:bold}
+.logo{
+    font-size:21px;
+    font-weight:bold;
+}
 
 .back{
-text-decoration:none;
-color:#1d4ed8;
-font-weight:bold;
+    color:#1d4ed8;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.hero{
+    text-align:center;
+    padding:45px 20px 25px;
+}
+
+.hero h1{
+    margin:0 0 12px;
+    font-size:38px;
+}
+
+.hero p{
+    max-width:760px;
+    margin:auto;
+    color:#64748b;
+    line-height:1.7;
 }
 
 .container{
-max-width:900px;
-margin:40px auto;
-padding:0 20px;
+    max-width:950px;
+    margin:20px auto 70px;
+    padding:0 20px;
 }
 
-.application-box{
-background:white;
-padding:35px;
-border-radius:14px;
-box-shadow:0 6px 25px rgba(0,0,0,.07);
-}
-
-h1{text-align:center;margin-top:0}
-
-.subtitle{
-text-align:center;
-color:#6b7280;
-line-height:1.6;
-margin-bottom:30px;
+.box{
+    background:#fff;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 6px 25px rgba(0,0,0,.07);
 }
 
 .progress{
-display:flex;
-justify-content:space-between;
-margin-bottom:35px;
-gap:6px;
+    display:flex;
+    gap:6px;
+    margin-bottom:35px;
 }
 
 .progress span{
-height:7px;
-background:#e5e7eb;
-flex:1;
-border-radius:5px;
+    flex:1;
+    height:7px;
+    background:#e5e7eb;
+    border-radius:20px;
 }
 
-.progress span.active{background:#1d4ed8}
+.progress span.active{
+    background:#1d4ed8;
+}
 
 .step{display:none}
 .step.active{display:block}
 
 .step h2{
-margin-top:0;
-border-bottom:1px solid #e5e7eb;
-padding-bottom:15px;
-}
-
-label{
-display:block;
-font-weight:bold;
-margin:17px 0 7px;
-}
-
-input,select,textarea{
-width:100%;
-padding:13px;
-border:1px solid #cbd5e1;
-border-radius:7px;
-font-size:15px;
-background:white;
-}
-
-textarea{
-min-height:100px;
-resize:vertical;
+    margin-top:0;
+    border-bottom:1px solid #e5e7eb;
+    padding-bottom:14px;
 }
 
 .grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
 }
 
-.visa-types{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-margin-top:20px;
+label{
+    display:block;
+    font-weight:bold;
+    margin:17px 0 7px;
 }
 
-.visa-option{
-border:2px solid #e5e7eb;
-border-radius:10px;
-padding:18px;
-cursor:pointer;
-display:flex;
-gap:10px;
-align-items:flex-start;
+input,select,textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+    background:#fff;
+    font-size:15px;
 }
 
-.visa-option:hover{border-color:#93b4ff}
-
-.visa-option input{
-width:auto;
-margin-top:4px;
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
-.visa-option:has(input:checked){
-border-color:#1d4ed8;
-background:#eef4ff;
+.country-grid,
+.visa-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-top:20px;
 }
 
-.visa-option strong{
-display:block;
-margin-bottom:5px;
+.option-card{
+    border:2px solid #e5e7eb;
+    border-radius:10px;
+    padding:18px 12px;
+    text-align:center;
+    cursor:pointer;
+    background:#fff;
+    transition:.2s;
 }
 
-.visa-option small{
-color:#6b7280;
-line-height:1.4;
+.option-card:hover{
+    border-color:#93c5fd;
+    background:#eff6ff;
+}
+
+.option-card.selected{
+    border-color:#1d4ed8;
+    background:#eff6ff;
+    color:#1d4ed8;
+    font-weight:bold;
+}
+
+.flag{
+    font-size:30px;
+    display:block;
+    margin-bottom:8px;
+}
+
+.upload{
+    margin:15px 0;
+    padding:18px;
+    border:1px dashed #94a3b8;
+    border-radius:9px;
+}
+
+.upload label{
+    margin-top:0;
+}
+
+.required{
+    color:#dc2626;
+}
+
+.optional{
+    color:#64748b;
+    font-size:13px;
+    font-weight:normal;
+}
+
+.note{
+    margin:20px 0;
+    padding:16px;
+    border-radius:9px;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    line-height:1.7;
+}
+
+.private{
+    background:#ecfdf5;
+    border-color:#a7f3d0;
+}
+
+.warning{
+    background:#fff7ed;
+    border-color:#fed7aa;
 }
 
 .navigation{
-display:flex;
-justify-content:space-between;
-gap:12px;
-margin-top:30px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:30px;
 }
 
 button{
-border:0;
-padding:13px 23px;
-border-radius:7px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.next,.submit{
-background:#1d4ed8;
-color:white;
-margin-left:auto;
+    border:0;
+    padding:13px 22px;
+    border-radius:7px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .previous{
-background:#e5e7eb;
-color:#172033;
+    background:#e5e7eb;
 }
 
-.upload-box{
-border:1px dashed #94a3b8;
-padding:18px;
-border-radius:9px;
-margin-bottom:15px;
-}
-
-.upload-box label{margin-top:0}
-
-.optional{
-font-weight:normal;
-color:#6b7280;
+.next,.submit{
+    background:#1d4ed8;
+    color:#fff;
+    margin-left:auto;
 }
 
 .review{
-background:#f8fafc;
-padding:20px;
-border-radius:9px;
-line-height:1.8;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:20px;
+    line-height:1.9;
 }
 
-.notice{
-padding:15px;
-background:#fff7ed;
-border:1px solid #fed7aa;
-border-radius:8px;
-font-size:14px;
-line-height:1.6;
-margin-top:20px;
+.payment{
+    background:#f8fafc;
+    border:2px solid #bfdbfe;
+    padding:25px;
+    border-radius:12px;
+}
+
+.status{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:9px;
+    padding:18px;
+    margin-top:20px;
+    line-height:1.7;
+}
+
+.check{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-top:20px;
+}
+
+.check input{
+    width:auto;
+    margin-top:4px;
+}
+
+.check label{
+    margin:0;
+    font-weight:normal;
+    line-height:1.6;
 }
 
 footer{
-margin-top:50px;
-background:#111827;
-color:white;
-text-align:center;
-padding:25px;
+    background:#111827;
+    color:#fff;
+    text-align:center;
+    padding:25px;
 }
 
-@media(max-width:650px){
-.grid,.visa-types{grid-template-columns:1fr}
-.application-box{padding:23px 18px}
-header{flex-direction:column;gap:12px}
+@media(max-width:750px){
+    .country-grid,.visa-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:500px){
+    .country-grid,.visa-grid{
+        grid-template-columns:1fr;
+    }
+
+    .box{
+        padding:22px 16px;
+    }
+
+    header{
+        flex-direction:column;
+        gap:12px;
+    }
 }
 </style>
 </head>
@@ -223,21 +300,28 @@ header{flex-direction:column;gap:12px}
 
 <header>
 <div class="logo">VisaWedding.online.sponsor.eur</div>
-<a class="back" href="dashboard.html">← Back to Dashboard</a>
+<a href="dashboard.html" class="back">← Dashboard</a>
 </header>
 
-<div class="container">
+<section class="hero">
 
-<div class="application-box">
+<h1>Apply for a Visa</h1>
 
-<h1>Visa Application</h1>
-
-<p class="subtitle">
-Select your destination and visa type, then complete the application.
+<p>
+Select your destination country and visa type, complete your
+application, upload the required documents and review everything
+before submission.
 </p>
+
+</section>
+
+<main class="container">
+
+<div class="box">
 
 <div class="progress">
 <span class="active"></span>
+<span></span>
 <span></span>
 <span></span>
 <span></span>
@@ -248,383 +332,65 @@ Select your destination and visa type, then complete the application.
 
 <form id="visaForm">
 
-<!-- STEP 1 -->
+<input type="hidden" id="destinationCountry" name="destinationCountry">
+<input type="hidden" id="visaType" name="visaType">
+
+<!-- STEP 1 COUNTRY -->
 
 <section class="step active">
 
-<h2>1. Destination & Visa Type</h2>
+<h2>1. Select Destination Country</h2>
 
-<label>Destination Country</label>
+<p>Which country would you like to apply for?</p>
 
-<select id="destination" required>
-<option value="">Select destination country</option>
-<option>Austria</option>
-<option>Belgium</option>
-<option>Denmark</option>
-<option>Finland</option>
-<option>France</option>
-<option>Germany</option>
-<option>Greece</option>
-<option>Italy</option>
-<option>Netherlands</option>
-<option>Norway</option>
-<option>Portugal</option>
-<option>Spain</option>
-<option>Sweden</option>
-<option>Switzerland</option>
-<option>Other European Country</option>
-</select>
+<div class="country-grid">
 
-<label>Select Visa Type</label>
-
-<div class="visa-types">
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Visit / Tourist Visa" required>
-<span>
-<strong>Visit / Tourist Visa</strong>
-<small>Tourism and short private visits.</small>
-</span>
-</label>
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Transit Visa">
-<span>
-<strong>Transit Visa</strong>
-<small>For eligible transit journeys.</small>
-</span>
-</label>
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Visit Friends & Family Visa">
-<span>
-<strong>Visit Friends & Family</strong>
-<small>Visit relatives, family members or friends.</small>
-</span>
-</label>
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Work Visa">
-<span>
-<strong>Work Visa</strong>
-<small>Employment and work-related applications.</small>
-</span>
-</label>
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Sponsor Visa">
-<span>
-<strong>Sponsor Visa</strong>
-<small>Applications involving an eligible sponsor.</small>
-</span>
-</label>
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Business Visa">
-<span>
-<strong>Business Visa</strong>
-<small>Business meetings and eligible business travel.</small>
-</span>
-</label>
-
-<label class="visa-option">
-<input type="radio" name="visaType" value="Student Visa">
-<span>
-<strong>Student Visa</strong>
-<small>Study and education-related applications.</small>
-</span>
-</label>
-
+<div class="option-card country" data-value="United States">
+<span class="flag">🇺🇸</span>
+United States
 </div>
 
-<div class="navigation">
-<button type="button" class="next">Next →</button>
+<div class="option-card country" data-value="United Kingdom">
+<span class="flag">🇬🇧</span>
+United Kingdom
 </div>
 
-</section>
-
-
-<!-- STEP 2 -->
-
-<section class="step">
-
-<h2>2. Personal Information</h2>
-
-<div class="grid">
-
-<div>
-<label>First Name</label>
-<input type="text" name="firstName" required>
+<div class="option-card country" data-value="Finland">
+<span class="flag">🇫🇮</span>
+Finland
 </div>
 
-<div>
-<label>Last Name</label>
-<input type="text" name="lastName" required>
+<div class="option-card country" data-value="Germany">
+<span class="flag">🇩🇪</span>
+Germany
 </div>
 
-<div>
-<label>Date of Birth</label>
-<input type="date" name="dob" required>
+<div class="option-card country" data-value="France">
+<span class="flag">🇫🇷</span>
+France
 </div>
 
-<div>
-<label>Gender</label>
-<select name="gender" required>
-<option value="">Select</option>
-<option>Male</option>
-<option>Female</option>
-<option>Other / Prefer not to say</option>
-</select>
+<div class="option-card country" data-value="Italy">
+<span class="flag">🇮🇹</span>
+Italy
 </div>
 
-<div>
-<label>Nationality</label>
-<input type="text" name="nationality" required>
+<div class="option-card country" data-value="Netherlands">
+<span class="flag">🇳🇱</span>
+Netherlands
 </div>
 
-<div>
-<label>Country of Residence</label>
-<input type="text" name="residenceCountry" required>
+<div class="option-card country" data-value="Greece">
+<span class="flag">🇬🇷</span>
+Greece
 </div>
 
+<div class="option-card country" data-value="Australia">
+<span class="flag">🇦🇺</span>
+Australia
 </div>
 
-<label>Residential Address</label>
-<textarea name="address" required></textarea>
-
-<div class="navigation">
-<button type="button" class="previous">← Previous</button>
-<button type="button" class="next">Next →</button>
+<div class="option-card country" data-value="New Zealand">
+<span class="flag">🇳🇿</span>
+New Zealand
 </div>
-
-</section>
-
-
-<!-- STEP 3 -->
-
-<section class="step">
-
-<h2>3. Passport Information</h2>
-
-<label>Passport Number</label>
-<input type="text" name="passportNumber" required>
-
-<div class="grid">
-
-<div>
-<label>Issuing Country</label>
-<input type="text" name="passportCountry" required>
-</div>
-
-<div>
-<label>Passport Issue Date</label>
-<input type="date" name="passportIssue" required>
-</div>
-
-<div>
-<label>Passport Expiry Date</label>
-<input type="date" name="passportExpiry" required>
-</div>
-
-<div>
-<label>Place of Birth</label>
-<input type="text" name="birthPlace" required>
-</div>
-
-</div>
-
-<div class="navigation">
-<button type="button" class="previous">← Previous</button>
-<button type="button" class="next">Next →</button>
-</div>
-
-</section>
-
-
-<!-- STEP 4 -->
-
-<section class="step">
-
-<h2>4. Travel Information</h2>
-
-<div class="grid">
-
-<div>
-<label>Intended Arrival Date</label>
-<input type="date" name="arrival" required>
-</div>
-
-<div>
-<label>Intended Departure Date</label>
-<input type="date" name="departure" required>
-</div>
-
-</div>
-
-<label>Destination City</label>
-<input type="text" name="city" required>
-
-<label>Purpose of Travel</label>
-<textarea name="purpose" required></textarea>
-
-<label>Accommodation Details</label>
-<textarea name="accommodation" required></textarea>
-
-<div class="navigation">
-<button type="button" class="previous">← Previous</button>
-<button type="button" class="next">Next →</button>
-</div>
-
-</section>
-
-
-<!-- STEP 5 -->
-
-<section class="step">
-
-<h2>5. Contact Information</h2>
-
-<label>Email Address</label>
-<input type="email" name="email" required>
-
-<label>Phone Number</label>
-<input type="tel" name="phone" required>
-
-<label>Emergency Contact Name</label>
-<input type="text" name="emergencyName" required>
-
-<div class="grid">
-
-<div>
-<label>Emergency Contact Phone</label>
-<input type="tel" name="emergencyPhone" required>
-</div>
-
-<div>
-<label>Relationship</label>
-<input type="text" name="relationship" required>
-</div>
-
-</div>
-
-<div class="navigation">
-<button type="button" class="previous">← Previous</button>
-<button type="button" class="next">Next →</button>
-</div>
-
-</section>
-
-
-<!-- STEP 6 -->
-
-<section class="step">
-
-<h2>6. Upload Documents</h2>
-
-<div class="upload-box">
-<label>Passport Copy</label>
-<input type="file" accept=".pdf,.jpg,.jpeg,.png" required>
-</div>
-
-<div class="upload-box">
-<label>Passport Photograph</label>
-<input type="file" accept=".jpg,.jpeg,.png" required>
-</div>
-
-<div class="upload-box">
-<label>Bank Statement</label>
-<input type="file" accept=".pdf,.jpg,.jpeg,.png">
-</div>
-
-<div class="upload-box">
-<label>ID / Residence Card</label>
-<input type="file" accept=".pdf,.jpg,.jpeg,.png">
-</div>
-
-<div class="upload-box">
-<label>Sponsor / Invitation Letter <span class="optional">(if applicable)</span></label>
-<input type="file" accept=".pdf,.jpg,.jpeg,.png">
-</div>
-
-<div class="upload-box">
-<label>Hotel / Accommodation Booking <span class="optional">(if applicable)</span></label>
-<input type="file" accept=".pdf,.jpg,.jpeg,.png">
-</div>
-
-<div class="upload-box">
-<label>Flight Reservation <span class="optional">(if applicable)</span></label>
-<input type="file" accept=".pdf,.jpg,.jpeg,.png">
-</div>
-
-<div class="notice">
-Document requirements vary by country and visa category.
-Additional documents may be requested where applicable.
-</div>
-
-<div class="navigation">
-<button type="button" class="previous">← Previous</button>
-<button type="button" class="next">Review →</button>
-</div>
-
-</section>
-
-
-<!-- STEP 7 -->
-
-<section class="step">
-
-<h2>7. Review & Submit</h2>
-
-<div class="review" id="reviewData">
-Please review your information before submitting.
-</div>
-
-<div class="notice">
-Submitting this form does not itself constitute a visa application
-to a government or guarantee issuance of a visa. Final requirements
-and decisions depend on the relevant immigration or consular authority.
-</div>
-
-<label>
-<input type="checkbox" id="declaration" style="width:auto" required>
-I confirm that the information I have provided is accurate.
-</label>
-
-<div class="navigation">
-<button type="button" class="previous">← Previous</button>
-<button type="submit" class="submit">Submit Application</button>
-</div>
-
-</section>
-
-</form>
-
-</div>
-</div>
-
-<footer>
-© 2026 VisaWedding.online.sponsor.eur — All Rights Reserved
-</footer>
-
-<script>
-
-const steps = document.querySelectorAll(".step");
-const progress = document.querySelectorAll(".progress span");
-let currentStep = 0;
-
-function showStep(index){
-steps.forEach((step,i)=>{
-step.classList.toggle("active",i===index);
-});
-
-progress.forEach((bar,i)=>{
-bar.classList.toggle("active",i<=index);
-});
-
-window.scrollTo({top:0,behavior:"smooth"});
-}
-
-document.querySelectorAll(".next").forEach(button=>{
-button.addEventListener("click",()=>{
-
-const current = steps[currentStep];
