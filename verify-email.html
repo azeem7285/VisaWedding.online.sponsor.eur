@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Email Verification | VisaWedding.online.sponsor.eur</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #ffffff;
+      padding: 18px 6%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .wrapper {
+      min-height: calc(100vh - 130px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .verification-box {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 35px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: #eff6ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 12px;
+      font-size: 29px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .email-display {
+      text-align: center;
+      font-weight: bold;
+      margin: 12px 0 25px;
+      word-break: break-word;
+    }
+
+    .code-label {
+      display: block;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    #verificationCode {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid #cbd5e1;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 10px;
+      outline: none;
+    }
+
+    #verificationCode:focus {
+      border-color: #1d4ed8;
+    }
+
+    .verify-button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #1d4ed8;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .verify-button:hover {
+      opacity: 0.92;
+    }
+
+    .verify-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .resend-area {
+      text-align: center;
+      margin-top: 24px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    #resendButton {
+      border: none;
+      background: none;
+      color: #1d4ed8;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    #resendButton:disabled {
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 8px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .message.error {
+      display: block;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+    }
+
+    .message.success {
+      display: block;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+    }
+
+    .message.info {
+      display: block;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .security-note {
+      margin-top: 25px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #1d4ed8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #111827;
+      color: #ffffff;
+      text-align: center;
+      padding: 22px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 550px) {
+      .verification-box {
+        padding: 28px 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+      #verificationCode {
+        font-size: 22px;
+        letter-spacing: 7px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    VisaWedding.online.sponsor.eur
+  </div>
+</header>
+
+<main class="wrapper">
+
+  <div class="verification-box">
+
+    <div class="icon">✉️</div>
+
+    <h1>Verify Your Email</h1>
+
+    <p class="subtitle">
+      We have sent a 6-digit verification code to your email address.
+      Enter the code below to verify your account.
+    </p>
+
+    <div class="email-display" id="emailDisplay">
+      Your registered email
+    </div>
+
+    <form id="verificationForm">
+
+      <label class="code-label" for="verificationCode">
+        6-Digit Verification Code
+      </label>
+
+      <input
+        type="text"
+        id="verificationCode"
+        name="verificationCode"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="6"
+        pattern="[0-9]{6}"
+        placeholder="000000"
+        required
+      >
+
+      <button
+        type="submit"
+        class="verify-button"
+        id="verifyButton"
+      >
+        Verify Email
+      </button>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="resend-area">
+
+      Didn't receive the code?
+      <br>
+
+      <button
+        type="button"
+        id="resendButton"
+        disabled
+      >
+        Resend Code
+      </button>
+
+      <div id="timerText">
+        You can request a new code in 60 seconds.
+      </div>
+
+    </div>
+
+    <div class="security-note">
+      <strong>Security Notice:</strong><br>
+      Never share your verification code with another person.
+      Our staff should not ask you to send your verification code
+      by WhatsApp, phone call or social media.
+    </div>
+
+    <div class="back-link">
+      <a href="signup.html">
+        ← Back to Sign Up
+      </a>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  © 2026 VisaWedding.online.sponsor.eur — All Rights Reserved
+</footer>
+
+
+<script>
+
+  /*
+  ==========================================================
+  EMAIL VERIFICATION FRONT-END
+  ==========================================================
+
+  IMPORTANT:
+
+  This page does NOT generate or validate a real verification
+  code by itself.
+
+  When the backend authentication service is connected:
+
+  1. Signup sends user's email to the authentication server.
+  2. Server securely generates a random 6-digit code.
+  3. Server stores only the secure verification record.
+  4. Code is emailed to the applicant.
+  5. This page sends the entered code to the server.
+  6. Server checks:
+       - correct email
+       - correct code
+       - expiry time
+       - number of attempts
+  7. Successful verification marks email as verified.
+  8. User is redirected to login.html.
+
+  Never place SMTP passwords, secret API keys or verification
+  codes inside this HTML file or a GitHub repository.
+  ==========================================================
+  */
+
+
+  const form =
+    document.getElementById("verificationForm");
+
+  const codeInput =
+    document.getElementById("verificationCode");
+
+  const verifyButton =
+    document.getElementById("verifyButton");
+
+  const resendButton =
+    document.getElementById("resendButton");
+
+  const timerText =
+    document.getElementById("timerText");
+
+  const message =
+    document.getElementById("message");
+
+  const emailDisplay =
+    document.getElementById("emailDisplay");
+
+
+  /*
+  The signup page can later send the email address
+  through a secure authentication flow.
+
+  For the current front-end preview we only attempt
+  to display an email stored by the signup interface.
+  */
+
+  const savedEmail =
+    sessionStorage.getItem("pendingVerificationEmail");
+
+  if (savedEmail) {
+    emailDisplay.textContent = savedEmail;
+  }
+
+
+  /*
+  Only allow numbers in the verification field.
+  */
+
+  codeInput.addEventListener("input", function () {
+
+    this.value =
+      this.value.replace(/\D/g, "").slice(0, 6);
+
+  });
+
+
+  /*
+  Resend countdown
+  */
+
+  let secondsRemaining = 60;
+
+  function startTimer() {
+
+    resendButton.disabled = true;
+    secondsRemaining = 60;
+
+    timerText.textContent =
+      "You can request a new code in 60 seconds.";
+
+    const timer = setInterval(function () {
+
+      secondsRemaining--;
+
+      if (secondsRemaining > 0) {
+
+        timerText.textContent =
+          "You can request a new code in " +
+          secondsRemaining +
+          " seconds.";
+
+      } else {
+
+        clearInterval(timer);
+
+        resendButton.disabled = false;
+
+        timerText.textContent =
+          "You can now request a new verification code.";
+
+      }
+
+    }, 1000);
+
+  }
+
+  startTimer();
+
+
+  /*
+  VERIFY BUTTON
+
+  This intentionally does NOT accept any locally stored
+  or hard-coded verification code.
+
+  Real verification will be connected to the backend.
+  */
+
+  form.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const code = codeInput.value.trim();
+
+    if (!/^\d{6}$/.test(code)) {
+
+      showMessage(
+        "Please enter the complete 6-digit verification code.",
+        "error"
+      );
+
+      return;
+    }
+
+    showMessage(
+      "The verification page is ready. Real email-code verification will become active when the secure authentication backend is connected.",
+      "info"
+    );
+
+  });
+
+
+  /*
+  RESEND BUTTON
+
+  Backend endpoint will later send a new code.
+  */
+
+  resendButton.addEventListener("click", function () {
+
+    showMessage(
+      "The resend function will become active after the email authentication backend is connected.",
+      "info"
+    );
+
+    startTimer();
+
+  });
+
+
+  function showMessage(text, type) {
+
+    message.textContent = text;
+    message.className = "message " + type;
+
+  }
+
+</script>
+
+</body>
+</html>
