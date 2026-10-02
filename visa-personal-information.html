@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Information | VisaWedding</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    .header {
+      background: white;
+      padding: 22px 30px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .header h2 {
+      margin: 0;
+      color: #1236d4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 35px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .step {
+      color: #1236d4;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    .selected-info {
+      background: #eef2ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #1236d4;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 14px 28px;
+      border: 0;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .continue {
+      background: #1236d4;
+      color: white;
+    }
+
+    .message {
+      margin-top: 18px;
+      font-weight: bold;
+      color: #15803d;
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        margin: 15px;
+        padding: 22px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h2>VisaWedding.online.sponsor.eur</h2>
+  </div>
+
+  <div class="container">
+
+    <div class="step">Step 3 of Visa Application</div>
+
+    <h1>Personal Information</h1>
+
+    <p class="subtitle">
+      Please enter your personal details exactly as they appear on your passport.
+    </p>
+
+    <div class="selected-info">
+      <strong>Destination:</strong>
+      <span id="destination">Not selected</span>
+      <br><br>
+
+      <strong>Visa Type:</strong>
+      <span id="visaType">Not selected</span>
+    </div>
+
+    <form id="personalForm">
+
+      <div class="row">
+
+        <div class="field">
+          <label for="firstName">First Name *</label>
+          <input
+            type="text"
+            id="firstName"
+            required
+            autocomplete="given-name"
+          >
+        </div>
+
+        <div class="field">
+          <label for="lastName">Last Name *</label>
+          <input
+            type="text"
+            id="lastName"
+            required
+            autocomplete="family-name"
+          >
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="field">
+          <label for="dob">Date of Birth *</label>
+          <input
+            type="date"
+            id="dob"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="gender">Gender *</label>
+          <select id="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="field">
+        <label for="nationality">Nationality *</label>
+        <input
+          type="text"
+          id="nationality"
+          placeholder="Example: Pakistani"
+          required
+        >
+      </div>
+
+      <div class="row">
+
+        <div class="field">
+          <label for="email">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number *</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="+92 / +62..."
+            required
+            autocomplete="tel"
+          >
+        </div>
+
+      </div>
+
+      <div class="field">
+        <label for="address">Residential Address *</label>
+        <textarea
+          id="address"
+          required
+          autocomplete="street-address"
+          placeholder="Enter your complete residential address"
+        ></textarea>
+      </div>
+
+      <div class="buttons">
+
+        <button
+          type="button"
+          class="back"
+          onclick="window.location.href='visa-application.html'"
+        >
+          Back
+        </button>
+
+        <button
+          type="submit"
+          class="continue"
+        >
+          Save & Continue
+        </button>
+
+      </div>
+
+      <div id="message" class="message"></div>
+
+    </form>
+
+  </div>
+
+  <script>
+    const destination =
+      sessionStorage.getItem("visaDestination") || "Not selected";
+
+    const visaType =
+      sessionStorage.getItem("visaType") || "Not selected";
+
+    document.getElementById("destination").textContent = destination;
+    document.getElementById("visaType").textContent = visaType;
+
+    document
+      .getElementById("personalForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const personalInformation = {
+          firstName: document.getElementById("firstName").value.trim(),
+          lastName: document.getElementById("lastName").value.trim(),
+          dateOfBirth: document.getElementById("dob").value,
+          gender: document.getElementById("gender").value,
+          nationality: document.getElementById("nationality").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          address: document.getElementById("address").value.trim()
+        };
+
+        sessionStorage.setItem(
+          "visaPersonalInformation",
+          JSON.stringify(personalInformation)
+        );
+
+        document.getElementById("message").textContent =
+          "Personal information saved successfully.";
+
+      });
+  </script>
+
+</body>
+</html>
