@@ -149,6 +149,7 @@ button{
   }
 }
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -226,7 +227,13 @@ Please keep this reference number safe. You will need it when contacting us abou
 </div>
 
 <script>
+const SUPABASE_URL = "https://ioasowcjabrozmuyzbgf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_MdFHrRzXCKkyeaAHSoRA1Q_UDVa6xs2";
 
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 const paymentProof =
 document.getElementById("paymentProof");
 
