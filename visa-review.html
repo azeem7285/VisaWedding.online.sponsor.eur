@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review Application</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+.container{
+  max-width:950px;
+  margin:45px auto;
+  padding:20px;
+}
+.card{
+  background:white;
+  border-radius:14px;
+  padding:30px;
+  margin-bottom:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+}
+.step{
+  color:#173bd4;
+  font-weight:bold;
+  font-size:15px;
+}
+h1{font-size:36px;margin:10px 0}
+h2{
+  font-size:22px;
+  margin-top:0;
+  border-bottom:1px solid #e5e7eb;
+  padding-bottom:12px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.item{
+  background:#f8f9fc;
+  padding:14px;
+  border-radius:8px;
+}
+.label{
+  font-size:13px;
+  color:#6b7280;
+  margin-bottom:5px;
+}
+.value{
+  font-size:16px;
+  font-weight:600;
+  word-break:break-word;
+}
+.notice{
+  background:#fff8e6;
+  padding:15px;
+  border-radius:8px;
+  line-height:1.5;
+}
+.buttons{
+  display:flex;
+  gap:15px;
+  margin-top:25px;
+}
+button{
+  padding:14px 25px;
+  border:0;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.back{
+  background:#e5e7eb;
+  color:#111827;
+}
+.continue{
+  background:#1236d4;
+  color:white;
+}
+.error{
+  color:#b91c1c;
+  margin-top:15px;
+}
+@media(max-width:650px){
+  .grid{grid-template-columns:1fr}
+  h1{font-size:29px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+    <div class="step">STEP 6 OF 8</div>
+    <h1>Review Application</h1>
+    <p>
+      Please carefully review your information before proceeding to payment.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Visa Selection</h2>
+    <div class="grid">
+      <div class="item">
+        <div class="label">Destination Country</div>
+        <div class="value" id="destination">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Visa Type</div>
+        <div class="value" id="visaType">Not provided</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Personal Information</h2>
+
+    <div class="grid">
+      <div class="item">
+        <div class="label">First Name</div>
+        <div class="value" id="firstName">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Last Name</div>
+        <div class="value" id="lastName">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Date of Birth</div>
+        <div class="value" id="dateOfBirth">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Gender</div>
+        <div class="value" id="gender">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Nationality</div>
+        <div class="value" id="nationality">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Email Address</div>
+        <div class="value" id="email">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Phone Number</div>
+        <div class="value" id="phone">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Residential Address</div>
+        <div class="value" id="address">Not provided</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Passport Information</h2>
+
+    <div class="grid">
+      <div class="item">
+        <div class="label">Passport Number</div>
+        <div class="value" id="passportNumber">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Issuing Country</div>
+        <div class="value" id="issuingCountry">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Passport Issue Date</div>
+        <div class="value" id="issueDate">Not provided</div>
+      </div>
+
+      <div class="item">
+        <div class="label">Passport Expiry Date</div>
+        <div class="value" id="expiryDate">Not provided</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Documents</h2>
+
+    <div class="notice">
+      Required documents were selected on the previous step.
+      Please confirm that your passport biodata page, photograph,
+      and ID/residence card are correct before continuing.
+    </div>
+  </div>
+
+  <div class="card">
+    <label>
+      <input type="checkbox" id="confirm">
+      I confirm that I have reviewed the information above and it is correct.
+    </label>
+
+    <div class="buttons">
+      <button class="back" type="button" onclick="goBack()">
+        Back
+      </button>
+
+      <button class="continue" type="button" onclick="goPayment()">
+        Proceed to Payment
+      </button>
+    </div>
+
+    <div id="message" class="error"></div>
+  </div>
+
+</div>
+
+<script>
+function show(id,value){
+  document.getElementById(id).textContent =
+    value && String(value).trim() ? value : "Not provided";
+}
+
+let personal = {};
+let passport = {};
+
+try{
+  personal = JSON.parse(
+    sessionStorage.getItem("visaPersonalInformation") || "{}"
+  );
+}catch(e){}
+
+try{
+  passport = JSON.parse(
+    sessionStorage.getItem("visaPassportInformation") || "{}"
+  );
+}catch(e){}
+
+show("destination", sessionStorage.getItem("visaDestination"));
+show("visaType", sessionStorage.getItem("visaType"));
+
+show("firstName", personal.firstName);
+show("lastName", personal.lastName);
+show("dateOfBirth", personal.dateOfBirth);
+show("gender", personal.gender);
+show("nationality", personal.nationality);
+show("email", personal.email);
+show("phone", personal.phone);
+show("address", personal.address);
+
+show("passportNumber", passport.passportNumber);
+show("issuingCountry", passport.issuingCountry);
+show("issueDate", passport.issueDate);
+show("expiryDate", passport.expiryDate);
+
+function goBack(){
+  window.location.href = "visa-documents.html";
+}
+
+function goPayment(){
+  const confirmed = document.getElementById("confirm").checked;
+  const message = document.getElementById("message");
+
+  if(!confirmed){
+    message.textContent =
+      "Please confirm that you have reviewed your application.";
+    return;
+  }
+
+  sessionStorage.setItem("visaApplicationReviewed","yes");
+
+  window.location.href = "visa-payment.html";
+}
+</script>
+
+</body>
+</html>
