@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Documents - Visa Application</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f6f8fc;
+  color: #111827;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 45px auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.step {
+  color: #1236d4;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 42px;
+  margin: 0 0 10px;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 18px;
+  margin-bottom: 35px;
+}
+
+.notice {
+  background: #f1f5ff;
+  border-left: 4px solid #1236d4;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.documents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.upload-box {
+  border: 1px solid #d9deea;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.upload-box label {
+  display: block;
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.required {
+  color: #dc2626;
+}
+
+.optional {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.description {
+  color: #6b7280;
+  font-size: 14px;
+  min-height: 35px;
+  margin-bottom: 12px;
+}
+
+input[type="file"] {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  border-radius: 8px;
+  background: white;
+}
+
+.buttons {
+  margin-top: 32px;
+  display: flex;
+  gap: 15px;
+}
+
+button {
+  padding: 14px 28px;
+  border-radius: 8px;
+  border: 0;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.back-btn {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.continue-btn {
+  background: #1236d4;
+  color: white;
+}
+
+#message {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.success {
+  color: #15803d;
+}
+
+@media (max-width: 700px) {
+  .documents {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 25px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<div class="step">STEP 5 OF 8</div>
+
+<h1>Upload Documents</h1>
+
+<p class="subtitle">
+Please upload the required documents for your visa application.
+</p>
+
+<div class="notice">
+<strong>Important:</strong>
+Files marked with <span class="required">*</span> are required.
+Only PDF files are accepted.
+</div>
+
+<form id="documentsForm">
+
+<div class="documents">
+
+<div class="upload-box">
+<label for="passportFile">
+Passport Biodata Page
+<span class="required">*</span>
+</label>
+
+<div class="description">
+Upload a clear PDF copy of the passport biodata page.
+</div>
+
+<input
+type="file"
+id="passportFile"
+accept=".pdf,application/pdf"
+required>
+</div>
+
+
+<div class="upload-box">
+<label for="photoFile">
+Applicant Photo
+<span class="required">*</span>
+</label>
+
+<div class="description">
+Upload your applicant photograph as a PDF file.
+</div>
+
+<input
+type="file"
+id="photoFile"
+accept=".pdf,application/pdf"
+required>
+</div>
+
+
+<div class="upload-box">
+<label for="idCardFile">
+ID Card / Residence Card
+<span class="required">*</span>
+</label>
+
+<div class="description">
+Upload your ID card or residence card as a PDF file.
+</div>
+
+<input
+type="file"
+id="idCardFile"
+accept=".pdf,application/pdf"
+required>
+</div>
+
+
+<div class="upload-box">
+<label for="bankStatement">
+Bank Statement
+<span class="optional">(Optional)</span>
+</label>
+
+<div class="description">
+Upload your bank statement if available.
+</div>
+
+<input
+type="file"
+id="bankStatement"
+accept=".pdf,application/pdf">
+</div>
+
+
+<div class="upload-box">
+<label for="flightTicket">
+Return Flight Ticket / Reservation
+<span class="optional">(Optional)</span>
+</label>
+
+<div class="description">
+Upload your return flight ticket or reservation if available.
+</div>
+
+<input
+type="file"
+id="flightTicket"
+accept=".pdf,application/pdf">
+</div>
+
+
+<div class="upload-box">
+<label for="hotelBooking">
+Hotel Booking
+<span class="optional">(Optional)</span>
+</label>
+
+<div class="description">
+Upload your hotel booking confirmation if available.
+</div>
+
+<input
+type="file"
+id="hotelBooking"
+accept=".pdf,application/pdf">
+</div>
+
+</div>
+
+
+<div class="buttons">
+
+<button
+type="button"
+class="back-btn"
+onclick="window.location.href='visa-passport-information.html'">
+Back
+</button>
+
+<button
+type="submit"
+class="continue-btn">
+Save & Continue
+</button>
+
+</div>
+
+<div id="message"></div>
+
+</form>
+
+</div>
+</div>
+
+
+<script>
+
+const form = document.getElementById("documentsForm");
+const message = document.getElementById("message");
+
+function isPDF(input) {
+
+  if (!input.files.length) {
+    return true;
+  }
+
+  const file = input.files[0];
+
+  return (
+    file.type === "application/pdf" ||
+    file.name.toLowerCase().endsWith(".pdf")
+  );
+}
+
+
+form.addEventListener("submit", function(event) {
+
+  event.preventDefault();
+
+  message.textContent = "";
+  message.className = "";
+
+  const passportFile =
+    document.getElementById("passportFile");
+
+  const photoFile =
+    document.getElementById("photoFile");
+
+  const idCardFile =
+    document.getElementById("idCardFile");
+
+  const bankStatement =
+    document.getElementById("bankStatement");
+
+  const flightTicket =
+    document.getElementById("flightTicket");
+
+  const hotelBooking =
+    document.getElementById("hotelBooking");
+
+
+  if (
+    !passportFile.files.length ||
+    !photoFile.files.length ||
+    !idCardFile.files.length
+  ) {
+
+    message.textContent =
+      "Please upload all required documents marked with *.";
+
+    message.className = "error";
+
+    return;
+  }
+
+
+  const allFiles = [
+    passportFile,
+    photoFile,
+    idCardFile,
+    bankStatement,
+    flightTicket,
+    hotelBooking
+  ];
+
+
+  for (const input of allFiles) {
+
+    if (!isPDF(input)) 
+   {
+  message.textContent = "Only PDF files are allowed.";
+  message.className = "error";
+  return;
+}
+
+}
+
+const documentStatus = {
+  passportBiodata: true,
+  applicantPhoto: true,
+  idCard: true,
+  bankStatement: bankStatement.files.length > 0,
+  flightTicket: flightTicket.files.length > 0,
+  hotelBooking: hotelBooking.files.length > 0
+};
+
+sessionStorage.setItem(
+  "visaDocumentStatus",
+  JSON.stringify(documentStatus)
+);
+
+message.textContent =
+  "Required documents selected successfully.";
+
+message.className = "success";
+
+});
+
+</script>
+
+</body>
+</html> 
