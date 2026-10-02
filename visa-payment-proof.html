@@ -374,10 +374,10 @@ const { data: savedApplication, error: saveError } =
       {
         reference_number: referenceNumber,
         email: personalInformation.email || "",
-        applicant_name:
-          personalInformation.fullName ||
-          personalInformation.name ||
-          "",
+       applicant_name: `${personalInformation.firstName || ""} ${personalInformation.lastName || ""}`.trim(), 
+          
+          
+          
         nationality: personalInformation.nationality || "",
         destination_country: application.destination || "",
         visa_type: application.visaType || "",
