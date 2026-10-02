@@ -303,7 +303,7 @@ function createReferenceNumber(){
 }
 
 
-submitButton.addEventListener("click", function(){
+submitButton.addEventListener("click",async function(){
 
   if(paymentProof.files.length === 0){
 
@@ -367,7 +367,38 @@ submitButton.addEventListener("click", function(){
     new Date().toISOString()
 
   };
+const { data: savedApplication, error: saveError } =
+  await supabaseClient
+    .from("visa_applications")
+    .insert([
+      {
+        reference_number: referenceNumber,
+        email: personalInformation.email || "",
+        applicant_name:
+          personalInformation.fullName ||
+          personalInformation.name ||
+          "",
+        nationality: personalInformation.nationality || "",
+        destination_country: application.destination || "",
+        visa_type: application.visaType || "",
+        passport_number:
+          passportInformation.passportNumber ||
+          passportInformation.passport_number ||
+          "",
+        payment_status: "Payment Proof Submitted",
+        payment_proof: application.paymentProofName || "",
+        application_status: "Submitted",
+        payment_amount: "USD 20",
+        payment_country: personalInformation.nationality || "",
+        submitted_at: new Date().toISOString()
+      }
+    ]);
 
+if (saveError) {
+  console.error("Supabase save error:", saveError);
+  alert("Application could not be saved. Please try again.");
+  return;
+}
 
   sessionStorage.setItem(
     "submittedVisaApplication",
