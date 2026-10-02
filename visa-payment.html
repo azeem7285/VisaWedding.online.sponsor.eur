@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visa Payment</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#111827;
+}
+.container{
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+}
+.card{
+  background:#fff;
+  padding:35px;
+  border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+.step{
+  color:#1236d4;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+h1{font-size:38px;margin:0 0 10px}
+.subtitle{
+  color:#6b7280;
+  line-height:1.6;
+}
+.fee-box{
+  background:#f3f6ff;
+  border:1px solid #dbe3ff;
+  padding:22px;
+  border-radius:12px;
+  margin:25px 0;
+}
+.fee-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.amount{
+  color:#1236d4;
+  font-size:30px;
+  font-weight:bold;
+}
+.bank-box{
+  border:2px solid #1236d4;
+  background:#f8faff;
+  padding:22px;
+  border-radius:12px;
+  margin-top:20px;
+}
+.bank-box p{
+  margin:10px 0;
+  line-height:1.5;
+}
+.label{
+  color:#6b7280;
+  font-size:14px;
+}
+.value{
+  font-weight:bold;
+  font-size:17px;
+  word-break:break-all;
+}
+select{
+  width:100%;
+  padding:14px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:16px;
+  margin-top:8px;
+}
+.notice{
+  background:#fff8e6;
+  border:1px solid #f1d48a;
+  padding:16px;
+  border-radius:10px;
+  margin-top:25px;
+  line-height:1.5;
+}
+.buttons{
+  display:flex;
+  gap:15px;
+  margin-top:30px;
+}
+button{
+  border:0;
+  border-radius:8px;
+  padding:14px 25px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.back-btn{
+  background:#e5e7eb;
+}
+.continue-btn{
+  background:#1236d4;
+  color:white;
+}
+#message{
+  margin-top:18px;
+  font-weight:bold;
+}
+.error{color:#b91c1c}
+.success{color:#15803d}
+
+@media(max-width:600px){
+  .container{margin:15px auto;padding:10px}
+  .card{padding:22px}
+  h1{font-size:30px}
+  .fee-row{display:block}
+  .amount{margin-top:10px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<div class="step">STEP 7 OF 8</div>
+
+<h1>Payment</h1>
+
+<p class="subtitle">
+Please pay the visa application processing fee using the bank
+account shown below.
+</p>
+
+<div class="fee-box">
+  <div class="fee-row">
+    <div>
+      <strong>Visa Application Processing Fee</strong><br>
+      <small>Application service fee</small>
+    </div>
+
+    <div class="amount">USD 20</div>
+  </div>
+</div>
+
+<h2>Payment Account</h2>
+
+<p id="nationalityText">
+Checking applicant nationality...
+</p>
+
+<div id="countrySelector" style="display:none;">
+  <label><strong>Select Payment Country</strong></label>
+
+  <select id="paymentCountry">
+    <option value="">Select country</option>
+    <option value="Indonesia">Indonesia</option>
+    <option value="Pakistan">Pakistan</option>
+  </select>
+</div>
+
+<div class="bank-box" id="bankBox" style="display:none;">
+
+  <p>
+    <span class="label">Country</span><br>
+    <span class="value" id="bankCountry"></span>
+  </p>
+
+  <p>
+    <span class="label">Bank</span><br>
+    <span class="value" id="bankName"></span>
+  </p>
+
+  <p>
+    <span class="label" id="accountLabel">Account Number</span><br>
+    <span class="value" id="accountNumber"></span>
+  </p>
+
+</div>
+
+<div class="notice">
+<strong>Important:</strong>
+Please verify the bank details before making payment.
+Keep your transfer receipt or payment confirmation.
+You will need it for the final submission step.
+</div>
+
+<div class="buttons">
+
+<button
+  type="button"
+  class="back-btn"
+  onclick="window.location.href='visa-review.html'">
+  Back
+</button>
+
+<button
+  type="button"
+  class="continue-btn"
+  id="continueBtn">
+  Save & Continue
+</button>
+
+</div>
+
+<div id="message"></div>
+
+</div>
+</div>
+
+<script>
+
+const nationalityText =
+  document.getElementById("nationalityText");
+
+const bankBox =
+  document.getElementById("bankBox");
+
+const bankCountry =
+  document.getElementById("bankCountry");
+
+const bankName =
+  document.getElementById("bankName");
+
+const accountNumber =
+  document.getElementById("accountNumber");
+
+const accountLabel =
+  document.getElementById("accountLabel");
+
+const countrySelector =
+  document.getElementById("countrySelector");
+
+const paymentCountry =
+  document.getElementById("paymentCountry");
+
+const message =
+  document.getElementById("message");
+
+let selectedPaymentCountry = "";
+
+const bankAccounts = {
+
+  Indonesia: {
+    bank: "Bank Mandiri",
+    account: "1020014225822",
+    label: "Account Number"
+  },
+
+  Pakistan: {
+    bank: "Digitt+",
+    account: "PK24DGTT0000091000115373",
+    label: "IBAN"
+  }
+
+};
+
+function showBank(country){
+
+  const details = bankAccounts[country];
+
+  if(!details) return;
+
+  selectedPaymentCountry = country;
+
+  bankCountry.textContent = country;
+  bankName.textContent = details.bank;
+  accountNumber.textContent = details.account;
+  accountLabel.textContent = details.label;
+
+  bankBox.style.display = "block";
+}
+
+let personalInformation = {};
+
+try {
+
+  personalInformation =
+    JSON.parse(
+      sessionStorage.getItem(
+        "visaPersonalInformation"
+      )
+    ) || {};
+
+} catch(error) {
+
+  personalInformation = {};
+
+}
+
+const nationality =
+  (personalInformation.nationality || "")
+  .trim()
+  .toLowerCase();
+
+if(
+  nationality === "pakistan" ||
+  nationality === "pakistani"
+){
+
+  nationalityText.textContent =
+    "Applicant nationality: Pakistan";
+
+  showBank("Pakistan");
+
+}
+else if(
+  nationality === "indonesia" ||
+  nationality === "indonesian"
+){
+
+  nationalityText.textContent =
+    "Applicant nationality: Indonesia";
+
+  showBank("Indonesia");
+
+}
+else {
+
+  nationalityText.textContent =
+    nationality
+    ? "Applicant nationality: " +
+      personalInformation.nationality
+    : "Applicant nationality was not found.";
+
+  countrySelector.style.display = "block";
+
+}
+
+paymentCountry.addEventListener(
+  "change",
+  function(){
+
+    if(this.value){
+      showBank(this.value);
+    }else{
+      selectedPaymentCountry = "";
+      bankBox.style.display = "none";
+    }
+
+  }
+);
+
+document
+.getElementById("continueBtn")
+.addEventListener("click", function(){
+
+  if(!selectedPaymentCountry){
+
+    message.textContent =
+      "Please select a payment country.";
+
+    message.className = "error";
+
+    return;
+  }
+
+  const paymentInformation = {
+
+    amount: 20,
+
+    currency: "USD",
+
+    paymentCountry:
+      selectedPaymentCountry,
+
+    bankName:
+      bankAccounts[
+        selectedPaymentCountry
+      ].bank,
+
+    status:
+      "Awaiting Payment Confirmation"
+
+  };
+
+  sessionStorage.setItem(
+    "visaPaymentInformation",
+    JSON.stringify(paymentInformation)
+  );
+
+  message.textContent =
+    "Payment information saved successfully.";
+
+  message.className = "success";
+
+  /*
+    Step 8 payment receipt and final submission
+    page will be connected next.
+  */
+
+});
+
+</script>
+
+</body>
+</html>
