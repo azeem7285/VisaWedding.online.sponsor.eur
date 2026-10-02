@@ -483,10 +483,10 @@ continueBtn.addEventListener("click", function() {
   sessionStorage.setItem("visaDestination", selectedCountry);
   sessionStorage.setItem("visaType", selectedVisaType);
 
-  alert(
-    "Destination: " + selectedCountry +
-    "\nVisa Type: " + selectedVisaType +
-    "\n\nSelection saved successfully."
+  window.location.href = "visa-personal-information.html";
+    
+    
+    
   );
 });
 </script>
