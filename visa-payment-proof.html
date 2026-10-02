@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment Proof - Visa Application</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f5f7fb;
+  color:#111827;
+}
+
+.container{
+  max-width:900px;
+  margin:50px auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:35px;
+  border-radius:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+
+.step{
+  color:#1636d8;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+h1{
+  font-size:38px;
+  margin:0 0 10px;
+}
+
+.subtitle{
+  color:#6b7280;
+  font-size:17px;
+  margin-bottom:30px;
+}
+
+.fee{
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  padding:18px;
+  border-radius:10px;
+  margin-bottom:25px;
+}
+
+.fee strong{
+  font-size:22px;
+}
+
+.upload-box{
+  border:2px dashed #b8c0d9;
+  border-radius:12px;
+  padding:30px;
+  margin-top:20px;
+}
+
+.upload-box h3{
+  margin-top:0;
+}
+
+input[type="file"]{
+  width:100%;
+  margin-top:15px;
+  padding:14px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  background:white;
+}
+
+#fileStatus{
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.success{
+  color:#15803d;
+}
+
+.error{
+  color:#b91c1c;
+}
+
+.buttons{
+  display:flex;
+  gap:15px;
+  margin-top:30px;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:15px 26px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.back-btn{
+  background:#e5e7eb;
+  color:#111827;
+}
+
+.submit-btn{
+  display:none;
+  background:#1236d4;
+  color:white;
+}
+
+#finalResult{
+  display:none;
+  margin-top:30px;
+  padding:25px;
+  border-radius:12px;
+  background:#ecfdf5;
+  border:1px solid #86efac;
+}
+
+.reference{
+  font-size:22px;
+  font-weight:bold;
+  color:#166534;
+  margin:12px 0;
+}
+
+@media(max-width:650px){
+  .container{
+    margin:20px auto;
+  }
+
+  .card{
+    padding:22px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<div class="step">FINAL STEP</div>
+
+<h1>Payment Confirmation</h1>
+
+<p class="subtitle">
+Upload your payment screenshot or receipt and submit your visa application.
+</p>
+
+<div class="fee">
+Application Processing Fee:
+<strong>USD $20</strong>
+</div>
+
+<div class="upload-box">
+
+<h3>Upload Payment Screenshot *</h3>
+
+<p>
+Upload a clear screenshot or receipt showing your payment.
+</p>
+
+<input
+  type="file"
+  id="paymentProof"
+  accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+>
+
+<div id="fileStatus"></div>
+
+</div>
+
+<div class="buttons">
+
+<button
+  type="button"
+  class="back-btn"
+  onclick="window.location.href='visa-payment.html'">
+  Back
+</button>
+
+<button
+  type="button"
+  id="submitButton"
+  class="submit-btn">
+  Submit Your Application
+</button>
+
+</div>
+
+<div id="finalResult">
+
+<h2>Application Submitted Successfully</h2>
+
+<p>Your application has been received.</p>
+
+<p>Your Application Reference Number is:</p>
+
+<div id="referenceNumber" class="reference"></div>
+
+<p>
+Please keep this reference number safe. You will need it when contacting us about your application.
+</p>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+const paymentProof =
+document.getElementById("paymentProof");
+
+const submitButton =
+document.getElementById("submitButton");
+
+const fileStatus =
+document.getElementById("fileStatus");
+
+const finalResult =
+document.getElementById("finalResult");
+
+
+paymentProof.addEventListener("change", function(){
+
+  if(paymentProof.files.length > 0){
+
+    const file = paymentProof.files[0];
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "application/pdf"
+    ];
+
+    if(!allowedTypes.includes(file.type)){
+
+      fileStatus.textContent =
+      "Please upload JPG, PNG or PDF only.";
+
+      fileStatus.className = "error";
+
+      submitButton.style.display = "none";
+
+      paymentProof.value = "";
+
+      return;
+    }
+
+    fileStatus.textContent =
+    "Payment screenshot uploaded: " + file.name;
+
+    fileStatus.className = "success";
+
+    submitButton.style.display = "inline-block";
+
+  }else{
+
+    submitButton.style.display = "none";
+    fileStatus.textContent = "";
+
+  }
+
+});
+
+
+function createReferenceNumber(){
+
+  const date = new Date();
+
+  const year = date.getFullYear();
+
+  const randomNumber =
+  Math.floor(100000 + Math.random() * 900000);
+
+  return "VW-" + year + "-" + randomNumber;
+}
+
+
+submitButton.addEventListener("click", function(){
+
+  if(paymentProof.files.length === 0){
+
+    alert("Please upload your payment screenshot first.");
+
+    return;
+  }
+
+
+  const referenceNumber =
+  createReferenceNumber();
+
+
+  const personalInformation =
+  JSON.parse(
+    sessionStorage.getItem("visaPersonalInformation") || "{}"
+  );
+
+
+  const passportInformation =
+  JSON.parse(
+    sessionStorage.getItem("visaPassportInformation") || "{}"
+  );
+
+
+  const documentStatus =
+  JSON.parse(
+    sessionStorage.getItem("visaDocumentStatus") || "{}"
+  );
+
+
+  const application = {
+
+    referenceNumber: referenceNumber,
+
+    destination:
+    sessionStorage.getItem("visaDestination") || "",
+
+    visaType:
+    sessionStorage.getItem("visaType") || "",
+
+    personalInformation:
+    personalInformation,
+
+    passportInformation:
+    passportInformation,
+
+    documents:
+    documentStatus,
+
+    paymentAmount:
+    "USD 20",
+
+    paymentProofName:
+    paymentProof.files[0].name,
+
+    status:
+    "Submitted",
+
+    submittedAt:
+    new Date().toISOString()
+
+  };
+
+
+  sessionStorage.setItem(
+    "submittedVisaApplication",
+    JSON.stringify(application)
+  );
+
+
+  document.getElementById(
+    "referenceNumber"
+  ).textContent = referenceNumber;
+
+
+  finalResult.style.display = "block";
+
+  submitButton.style.display = "none";
+
+  paymentProof.disabled = true;
+
+
+  finalResult.scrollIntoView({
+    behavior:"smooth"
+  });
+
+});
+
+</script>
+
+</body>
+</html>
