@@ -154,6 +154,7 @@
       }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -272,7 +273,17 @@
 
 
 <script>
+const SUPABASE_URL = "https://ioasowcjabrozmuyzbgf.supabase.co";
 
+const SUPABASE_KEY =
+  "sb_publishable_MdFHrRzXCKkyeaAHSoRA1Q_UDVa6xs2";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+  
   const marriagePersonalInformation =
     JSON.parse(
       sessionStorage.getItem(
@@ -332,7 +343,7 @@
 
   paymentProofForm.addEventListener(
     "submit",
-    function(event) {
+   async function(event) {
 
       event.preventDefault();
 
@@ -451,7 +462,44 @@
         )
 
       );
+try {
 
+  const { error: emailError } =
+    await supabaseClient.functions.invoke(
+      "send-marriage-email",
+      {
+        body: {
+          email:
+            marriagePersonalInformation.email || "",
+
+          applicant_name:
+            applicantName,
+
+          reference_number:
+            referenceNumber,
+
+          destination_country:
+            marriagePersonalInformation.destinationCountry || ""
+        }
+      }
+    );
+
+  if (emailError) {
+    console.error(
+      "Marriage confirmation email error:",
+      emailError
+    );
+  }
+
+} catch (emailError) {
+
+  console.error(
+    "Marriage confirmation email error:",
+    emailError
+  );
+
+}
+     
 
       document.getElementById(
         "referenceNumber"
