@@ -399,7 +399,29 @@ if (saveError) {
   alert("Application could not be saved. Please try again.");
   return;
 }
+// Send confirmation email after application is saved
+try {
+  const { error: emailError } =
+    await supabaseClient.functions.invoke(
+      "send-application-email",
+      {
+        body: {
+          email: personalInformation.email || "",
+          applicant_name:
+            `${personalInformation.firstName || ""} ${personalInformation.lastName || ""}`.trim(),
+          reference_number: referenceNumber,
+          destination_country: application.destination || "",
+          visa_type: application.visaType || ""
+        }
+      }
+    );
 
+  if (emailError) {
+    console.error("Confirmation email error:", emailError);
+  }
+} catch (emailError) {
+  console.error("Confirmation email error:", emailError);
+}
   sessionStorage.setItem(
     "submittedVisaApplication",
     JSON.stringify(application)
