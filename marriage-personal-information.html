@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Marriage / Wedding - Personal Information</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 30px;
+      color: #111827;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .service-box {
+      background: #eef4ff;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 28px;
+    }
+
+    .service-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #1d4ed8;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-top: 10px;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 16px;
+      background: #ffffff;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .required {
+      color: #dc2626;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 15px 20px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        margin: 15px auto;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+
+      <h1>Marriage / Wedding</h1>
+
+      <p class="subtitle">
+        Please provide your personal information to continue your
+        Marriage / Wedding application.
+      </p>
+
+      <div class="service-box">
+        <strong>Service</strong>
+        Marriage / Wedding
+      </div>
+
+      <form id="marriagePersonalForm">
+
+        <h2>Personal Information</h2>
+
+        <div class="form-group">
+          <label for="destinationCountry">
+            Destination Country <span class="required">*</span>
+          </label>
+
+          <select id="destinationCountry" required>
+            <option value="">Select Destination Country</option>
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+            <option value="New Zealand">New Zealand</option>
+            <option value="Germany">Germany</option>
+            <option value="Finland">Finland</option>
+            <option value="France">France</option>
+            <option value="Italy">Italy</option>
+            <option value="Spain">Spain</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="Sweden">Sweden</option>
+            <option value="Norway">Norway</option>
+            <option value="Denmark">Denmark</option>
+            <option value="Switzerland">Switzerland</option>
+            <option value="Austria">Austria</option>
+            <option value="Belgium">Belgium</option>
+            <option value="Greece">Greece</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Malaysia">Malaysia</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Philippines">Philippines</option>
+            <option value="Japan">Japan</option>
+            <option value="South Korea">South Korea</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="United Arab Emirates">United Arab Emirates</option>
+            <option value="Saudi Arabia">Saudi Arabia</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="row">
+
+          <div class="form-group">
+            <label for="firstName">
+              First Name <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="firstName"
+              autocomplete="given-name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">
+              Last Name <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="lastName"
+              autocomplete="family-name"
+              required
+            >
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="form-group">
+            <label for="dob">
+              Date of Birth <span class="required">*</span>
+            </label>
+
+            <input
+              type="date"
+              id="dob"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="gender">
+              Gender <span class="required">*</span>
+            </label>
+
+            <select id="gender" required>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="nationality">
+            Nationality <span class="required">*</span>
+          </label>
+
+          <input
+            type="text"
+            id="nationality"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            Email Address <span class="required">*</span>
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="phone">
+            Phone Number <span class="required">*</span>
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            autocomplete="tel"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="address">
+            Residential Address <span class="required">*</span>
+          </label>
+
+          <textarea
+            id="address"
+            autocomplete="street-address"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn">
+          Save &amp; Continue
+        </button>
+
+      </form>
+
+      <p class="note">
+        Please make sure your information is correct before continuing.
+      </p>
+
+    </div>
+  </div>
+
+  <script>
+    const marriagePersonalForm =
+      document.getElementById("marriagePersonalForm");
+
+    marriagePersonalForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const marriagePersonalInformation = {
+        service: "Marriage / Wedding",
+
+        destinationCountry:
+          document.getElementById("destinationCountry").value,
+
+        firstName:
+          document.getElementById("firstName").value.trim(),
+
+        lastName:
+          document.getElementById("lastName").value.trim(),
+
+        dateOfBirth:
+          document.getElementById("dob").value,
+
+        gender:
+          document.getElementById("gender").value,
+
+        nationality:
+          document.getElementById("nationality").value.trim(),
+
+        email:
+          document.getElementById("email").value.trim(),
+
+        phone:
+          document.getElementById("phone").value.trim(),
+
+        address:
+          document.getElementById("address").value.trim()
+      };
+
+      sessionStorage.setItem(
+        "marriagePersonalInformation",
+        JSON.stringify(marriagePersonalInformation)
+      );
+
+      window.location.href = "marriage-documents.html";
+    });
+  </script>
+
+</body>
+</html>
