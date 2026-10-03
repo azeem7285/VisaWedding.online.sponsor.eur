@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Marriage / Wedding - Payment Proof</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .info-box {
+      background: #eef4ff;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    .upload-box {
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 25px;
+      background: #f8fafc;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+    }
+
+    .small-text {
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    .notice {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 16px 20px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    .btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .success-box {
+      display: none;
+      margin-top: 25px;
+      padding: 24px;
+      border: 1px solid #86efac;
+      background: #f0fdf4;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .success-box h2 {
+      color: #166534;
+      margin-top: 0;
+    }
+
+    .reference {
+      display: inline-block;
+      margin: 12px 0;
+      padding: 12px 18px;
+      background: #ffffff;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        margin: 15px auto;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>Upload Payment Proof</h1>
+
+    <p class="subtitle">
+      Upload a clear screenshot or receipt of your
+      Marriage / Wedding service fee payment.
+    </p>
+
+
+    <div class="info-box">
+
+      <strong>Service:</strong>
+      Marriage / Wedding
+
+      <br>
+
+      <strong>Service Fee:</strong>
+      USD 20
+
+      <br>
+
+      <strong>Applicant:</strong>
+      <span id="applicantName">Loading...</span>
+
+      <br>
+
+      <strong>Email:</strong>
+      <span id="applicantEmail">Loading...</span>
+
+    </div>
+
+
+    <form id="paymentProofForm">
+
+      <div class="upload-box">
+
+        <label for="paymentProof">
+          Payment Screenshot / Receipt *
+        </label>
+
+        <input
+          type="file"
+          id="paymentProof"
+          accept="image/jpeg,image/png,image/webp,application/pdf"
+          required
+        >
+
+        <div class="small-text">
+          Accepted formats: JPG, PNG, WEBP or PDF.
+          Please make sure the payment information is clearly visible.
+        </div>
+
+      </div>
+
+
+      <div class="notice">
+        Your application will be submitted for verification.
+        Submission does not mean that the Marriage / Wedding
+        application has already been approved.
+      </div>
+
+
+      <button
+        type="submit"
+        id="submitButton"
+        class="btn"
+      >
+        Submit Marriage / Wedding Application
+      </button>
+
+    </form>
+
+
+    <div
+      id="successBox"
+      class="success-box"
+    >
+
+      <h2>
+        Application Submitted Successfully
+      </h2>
+
+      <p>
+        Your Marriage / Wedding application has been received.
+      </p>
+
+      <p>
+        Your Reference Number is:
+      </p>
+
+      <div
+        id="referenceNumber"
+        class="reference"
+      ></div>
+
+      <p>
+        Please keep this reference number for your records.
+      </p>
+
+      <p>
+        Your application is awaiting verification.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  const marriagePersonalInformation =
+    JSON.parse(
+      sessionStorage.getItem(
+        "marriagePersonalInformation"
+      ) || "{}"
+    );
+
+
+  const marriageDocumentStatus =
+    JSON.parse(
+      sessionStorage.getItem(
+        "marriageDocumentStatus"
+      ) || "{}"
+    );
+
+
+  const marriagePaymentInformation =
+    JSON.parse(
+      sessionStorage.getItem(
+        "marriagePaymentInformation"
+      ) || "{}"
+    );
+
+
+  const applicantName =
+    `${
+      marriagePersonalInformation.firstName || ""
+    } ${
+      marriagePersonalInformation.lastName || ""
+    }`.trim();
+
+
+  document.getElementById(
+    "applicantName"
+  ).textContent =
+    applicantName || "Not available";
+
+
+  document.getElementById(
+    "applicantEmail"
+  ).textContent =
+    marriagePersonalInformation.email ||
+    "Not available";
+
+
+  const paymentProofForm =
+    document.getElementById(
+      "paymentProofForm"
+    );
+
+
+  const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
+
+
+  paymentProofForm.addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+
+      const paymentProof =
+        document.getElementById(
+          "paymentProof"
+        ).files[0];
+
+
+      if (!paymentProof) {
+
+        alert(
+          "Please upload your payment screenshot or receipt."
+        );
+
+        return;
+      }
+
+
+      if (
+        !marriagePersonalInformation.email
+      ) {
+
+        alert(
+          "Applicant email information is missing. Please complete the Personal Information page again."
+        );
+
+        return;
+      }
+
+
+      submitButton.disabled = true;
+
+      submitButton.textContent =
+        "Submitting...";
+
+
+      const currentYear =
+        new Date().getFullYear();
+
+
+      const randomNumber =
+        Math.floor(
+          100000 +
+          Math.random() * 900000
+        );
+
+
+      const referenceNumber =
+        `MW-${currentYear}-${randomNumber}`;
+
+
+      const marriageApplication = {
+
+        referenceNumber:
+          referenceNumber,
+
+        service:
+          "Marriage / Wedding",
+
+        applicantName:
+          applicantName,
+
+        email:
+          marriagePersonalInformation.email || "",
+
+        phone:
+          marriagePersonalInformation.phone || "",
+
+        nationality:
+          marriagePersonalInformation.nationality || "",
+
+        destinationCountry:
+          marriagePersonalInformation.destinationCountry || "",
+
+        dateOfBirth:
+          marriagePersonalInformation.dateOfBirth || "",
+
+        gender:
+          marriagePersonalInformation.gender || "",
+
+        address:
+          marriagePersonalInformation.address || "",
+
+        documents:
+          marriageDocumentStatus,
+
+        payment:
+          marriagePaymentInformation,
+
+        paymentProofName:
+          paymentProof.name,
+
+        paymentAmount:
+          "USD 20",
+
+        paymentStatus:
+          "Payment Proof Submitted",
+
+        applicationStatus:
+          "Submitted - Awaiting Verification",
+
+        submittedAt:
+          new Date().toISOString()
+
+      };
+
+
+      sessionStorage.setItem(
+
+        "submittedMarriageApplication",
+
+        JSON.stringify(
+          marriageApplication
+        )
+
+      );
+
+
+      document.getElementById(
+        "referenceNumber"
+      ).textContent =
+        referenceNumber;
+
+
+      paymentProofForm.style.display =
+        "none";
+
+
+      document.getElementById(
+        "successBox"
+      ).style.display =
+        "block";
+
+
+      window.scrollTo({
+        top:
+          document.body.scrollHeight,
+        behavior:
+          "smooth"
+      });
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
