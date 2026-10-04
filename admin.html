@@ -716,34 +716,38 @@ function hideNotice() {
   ).style.display =
     "none";
 }
-
-
 async function checkAdminSession() {
 
   const {
     data: { session }
   } =
-    await supabaseClient.auth
-      .getSession();
-
+    await supabaseClient.auth.getSession();
 
   if (!session) {
-
-    window.location.href =
-      "login.html";
-
+    window.location.href = "login.html";
     return false;
   }
 
+  const { data: adminUser, error: adminError } =
+    await supabaseClient
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
+
+  if (adminError || !adminUser) {
+    alert("Access denied. Admin account required.");
+    window.location.href = "dashboard.html";
+    return false;
+  }
 
   document.getElementById(
     "adminEmail"
   ).textContent =
     session.user.email || "";
 
-
   return true;
-}
+}   
 
 
 async function logoutAdmin() {
