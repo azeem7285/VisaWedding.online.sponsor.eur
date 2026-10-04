@@ -137,6 +137,7 @@
       }
     }
   </style>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
 </head>
 
 <body>
@@ -228,12 +229,23 @@
   </div>
 
   <script>
+    const SUPABASE_URL =
+  "https://ioasowcjabrozmuyzbgf.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_MdFHrRzXCKkyeaAHSoRA1Q_UDVa6xs2";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
     const marriageDocumentsForm =
       document.getElementById("marriageDocumentsForm");
 
     marriageDocumentsForm.addEventListener(
       "submit",
-      function(event) {
+   async function(event) {
 
         event.preventDefault();
 
@@ -250,18 +262,63 @@
           alert("Please upload all required documents.");
           return;
         }
+const uploadFolder =
+  `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-        const marriageDocumentStatus = {
-          profilePhotoSelected: true,
-          profilePhotoName: profilePhoto.name,
+const profilePhotoPath =
+  `${uploadFolder}/profile-photo-${profilePhoto.name}`;
 
-          passportSelected: true,
-          passportName: passport.name,
+const passportPath =
+  `${uploadFolder}/passport-${passport.name}`;
 
-          identityCardSelected: true,
-          identityCardName: identityCard.name
-        };
+const identityCardPath =
+  `${uploadFolder}/identity-card-${identityCard.name}`;
 
+const { error: profilePhotoError } =
+  await supabaseClient.storage
+    .from("marriage-private-documents")
+    .upload(profilePhotoPath, profilePhoto);
+
+if (profilePhotoError) {
+  console.error("Profile photo upload error:", profilePhotoError);
+  alert("Profile photo could not be uploaded.");
+  return;
+}
+
+const { error: passportError } =
+  await supabaseClient.storage
+    .from("marriage-private-documents")
+    .upload(passportPath, passport);
+
+if (passportError) {
+  console.error("Passport upload error:", passportError);
+  alert("Passport could not be uploaded.");
+  return;
+}
+
+const { error: identityCardError } =
+  await supabaseClient.storage
+    .from("marriage-private-documents")
+    .upload(identityCardPath, identityCard);
+
+if (identityCardError) {
+  console.error("Identity card upload error:", identityCardError);
+  alert("Identity card could not be uploaded.");
+  return;
+}
+  const marriageDocumentStatus = {
+  profilePhotoSelected: true,
+  profilePhotoName: profilePhoto.name,
+  profilePhotoPath: profilePhotoPath,
+
+  passportSelected: true,
+  passportName: passport.name,
+  passportPath: passportPath,
+
+  identityCardSelected: true,
+  identityCardName: identityCard.name,
+  identityCardPath: identityCardPath
+};   
         sessionStorage.setItem(
           "marriageDocumentStatus",
           JSON.stringify(marriageDocumentStatus)
