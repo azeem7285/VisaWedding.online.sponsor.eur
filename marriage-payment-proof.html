@@ -462,7 +462,57 @@ const supabaseClient =
         )
 
       );
+  const { error: saveError } =
+  await supabaseClient
+    .from("marriage_applications")
+    .insert([
+      {
+        reference_number: referenceNumber,
+        email: marriagePersonalInformation.email || "",
+        applicant_name: applicantName,
+        phone: marriagePersonalInformation.phone || "",
+        nationality: marriagePersonalInformation.nationality || "",
+        destination_country:
+          marriagePersonalInformation.destinationCountry || "",
+        date_of_birth:
+          marriagePersonalInformation.dateOfBirth || null,
+        gender: marriagePersonalInformation.gender || "",
+        address: marriagePersonalInformation.address || "",
+
+        profile_photo_name:
+          marriageDocumentStatus.profilePhotoName || "",
+        passport_name:
+          marriageDocumentStatus.passportName || "",
+        identity_card_name:
+          marriageDocumentStatus.identityCardName || "",
+
+        payment_method:
+          marriagePaymentInformation.paymentMethod || "",
+        payment_amount: "USD 20",
+        payment_status: "Payment Proof Submitted",
+        payment_proof: paymentProof.name,
+        application_status:
+          "Submitted - Awaiting Verification",
+        submitted_at: new Date().toISOString()
+      }
+    ]);
+
+if (saveError) {
+  console.error(
+    "Marriage application save error:",
+    saveError
+  );
+
+  alert(
+    "Application could not be saved. Please try again."
+  );
+
+  submitButton.disabled = false;
+  return;
+}   
 try {
+  
+  
 
   const { error: emailError } =
     await supabaseClient.functions.invoke(
