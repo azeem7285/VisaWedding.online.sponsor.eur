@@ -395,7 +395,31 @@ const supabaseClient =
 
       const referenceNumber =
         `MW-${currentYear}-${randomNumber}`;
+const paymentProofPath =
+  `${referenceNumber}/payment-proof-${Date.now()}-${paymentProof.name}`;
 
+const { error: paymentProofUploadError } =
+  await supabaseClient.storage
+    .from("marriage-private-documents")
+    .upload(paymentProofPath, paymentProof);
+
+if (paymentProofUploadError) {
+  console.error(
+    "Payment proof upload error:",
+    paymentProofUploadError
+  );
+
+  alert(
+    "Payment proof could not be uploaded. Please try again."
+  );
+
+  submitButton.disabled = false;
+  submitButton.textContent =
+    "Submit Marriage / Wedding Application";
+
+  return;
+}
+     
 
       const marriageApplication = {
 
@@ -436,7 +460,7 @@ const supabaseClient =
           marriagePaymentInformation,
 
         paymentProofName:
-          paymentProof.name,
+          paymentProofPath,
 
         paymentAmount:
           "USD 20",
@@ -508,6 +532,8 @@ if (saveError) {
   );
 
   submitButton.disabled = false;
+  submitButton.textContent =
+  "Submit Marriage / Wedding Application";
   return;
 }   
 try {
