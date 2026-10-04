@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VisaWedding Admin Panel</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    .header {
+      background: #0f172a;
+      color: white;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .admin-email {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .container {
+      max-width: 1450px;
+      margin: 30px auto;
+      padding: 0 20px 50px;
+    }
+
+    .notice {
+      display: none;
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .summary-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    }
+
+    .summary-card .label {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .summary-card .number {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .toolbar {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+      margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .tab {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .tab.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .refresh-btn {
+      background: #16a34a;
+      color: white;
+    }
+
+    .logout-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .view-btn {
+      background: #2563eb;
+      color: white;
+      margin: 2px;
+    }
+
+    .delete-btn {
+      background: #dc2626;
+      color: white;
+      margin: 2px;
+    }
+
+    .document-btn {
+      background: #7c3aed;
+      color: white;
+      margin: 4px;
+    }
+
+    .delete-document-btn {
+      background: #b91c1c;
+      color: white;
+      margin: 4px;
+    }
+
+    .save-status-btn {
+      background: #16a34a;
+      color: white;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-row input,
+    .search-row select {
+      flex: 1;
+      min-width: 210px;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+
+    .table-title {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table-title h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1150px;
+    }
+
+    th {
+      background: #f8fafc;
+      text-align: left;
+      padding: 13px;
+      font-size: 13px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    td {
+      padding: 13px;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status-submitted {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-review {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .status-approved {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .loading,
+    .empty {
+      text-align: center;
+      padding: 40px;
+      color: #64748b;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      background: rgba(15,23,42,0.72);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      max-width: 900px;
+      margin: 35px auto;
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 12px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .detail {
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 8px;
+      word-break: break-word;
+    }
+
+    .detail strong {
+      display: block;
+      color: #475569;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .documents-area {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+    }
+
+    .document-row {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .document-row:last-child {
+      border-bottom: none;
+    }
+
+    .status-control {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+    }
+
+    .status-control select {
+      width: 100%;
+      padding: 11px;
+      margin: 10px 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+    }
+
+    .danger-zone {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #fecaca;
+      background: #fff1f2;
+      border-radius: 10px;
+    }
+
+    .danger-zone h3 {
+      color: #991b1b;
+      margin-top: 0;
+    }
+
+    @media (max-width: 900px) {
+      .summary-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+
+  <h1>VisaWedding Admin Panel</h1>
+
+  <div class="header-actions">
+
+    <span
+      id="adminEmail"
+      class="admin-email">
+    </span>
+
+    <button
+      class="refresh-btn"
+      onclick="loadApplications()">
+      Refresh
+    </button>
+
+    <button
+      class="logout-btn"
+      onclick="logoutAdmin()">
+      Logout
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <div
+    id="notice"
+    class="notice">
+  </div>
+
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+      <div class="label">
+        Visa Applications
+      </div>
+      <div
+        id="visaCount"
+        class="number">
+        0
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="label">
+        Marriage Applications
+      </div>
+      <div
+        id="marriageCount"
+        class="number">
+        0
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="label">
+        Under Review
+      </div>
+      <div
+        id="reviewCount"
+        class="number">
+        0
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="label">
+        Approved
+      </div>
+      <div
+        id="approvedCount"
+        class="number">
+        0
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="toolbar">
+
+    <div class="tabs">
+
+      <button
+        id="visaTab"
+        class="tab active"
+        onclick="showSection('visa')">
+        Visa Applications
+      </button>
+
+      <button
+        id="marriageTab"
+        class="tab"
+        onclick="showSection('marriage')">
+        Marriage / Wedding Applications
+      </button>
+
+    </div>
+
+
+    <div class="search-row">
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search reference, name, email, passport, country..."
+        oninput="renderCurrentSection()">
+
+      <select
+        id="statusFilter"
+        onchange="renderCurrentSection()">
+
+        <option value="">
+          All Statuses
+        </option>
+
+        <option value="Submitted">
+          Submitted
+        </option>
+
+        <option value="Under Review">
+          Under Review
+        </option>
+
+        <option value="Approved">
+          Approved
+        </option>
+
+        <option value="Rejected">
+          Rejected
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+  <section class="table-card">
+
+    <div class="table-title">
+      <h2 id="sectionTitle">
+        Visa Applications
+      </h2>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Applicant</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Service / Visa Type</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="applicationRows"></tbody>
+
+      </table>
+
+      <div
+        id="loadingMessage"
+        class="loading">
+        Loading applications...
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<div
+  id="detailsModal"
+  class="modal">
+
+  <div class="modal-content">
+
+    <span
+      class="close"
+      onclick="closeModal()">
+      &times;
+    </span>
+
+    <h2 id="modalTitle">
+      Application Details
+    </h2>
+
+
+    <div
+      id="detailsGrid"
+      class="details-grid">
+    </div>
+
+
+    <div
+      id="documentsArea"
+      class="documents-area">
+    </div>
+
+
+    <div class="status-control">
+
+      <strong>
+        Application Status
+      </strong>
+
+      <select id="modalStatus">
+
+        <option value="Submitted - Awaiting Verification">
+          Submitted - Awaiting Verification
+        </option>
+
+        <option value="Under Review">
+          Under Review
+        </option>
+
+        <option value="Approved">
+          Approved
+        </option>
+
+        <option value="Rejected">
+          Rejected
+        </option>
+
+      </select>
+
+      <button
+        class="save-status-btn"
+        onclick="saveApplicationStatus()">
+        Save Status
+      </button>
+
+    </div>
+
+
+    <div class="danger-zone">
+
+      <h3>
+        Danger Zone
+      </h3>
+
+      <p>
+        Permanently delete this application.
+        This action cannot be undone.
+      </p>
+
+      <button
+        class="delete-btn"
+        onclick="deleteSelectedApplication()">
+        Delete Entire Application
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://ioasowcjabrozmuyzbgf.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_MdFHrRzXCKkyeaAHSoRA1Q_UDVa6xs2";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let visaApplications = [];
+let marriageApplications = [];
+
+let currentSection = "visa";
+
+let selectedApplication = null;
+let selectedTable = null;
+let selectedSection = null;
+
+
+function escapeHtml(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+function showNotice(message) {
+
+  const notice =
+    document.getElementById(
+      "notice"
+    );
+
+  notice.textContent =
+    message;
+
+  notice.style.display =
+    "block";
+}
+
+
+function hideNotice() {
+
+  document.getElementById(
+    "notice"
+  ).style.display =
+    "none";
+}
+
+
+async function checkAdminSession() {
+
+  const {
+    data: { session }
+  } =
+    await supabaseClient.auth
+      .getSession();
+
+
+  if (!session) {
+
+    window.location.href =
+      "login.html";
+
+    return false;
+  }
+
+
+  document.getElementById(
+    "adminEmail"
+  ).textContent =
+    session.user.email || "";
+
+
+  return true;
+}
+
+
+async function logoutAdmin() {
+
+  await supabaseClient.auth
+    .signOut();
+
+  window.location.href =
+    "login.html";
+}
+
+
+async function loadApplications() {
+
+  hideNotice();
+
+  document.getElementById(
+    "loadingMessage"
+  ).style.display =
+    "block";
+
+
+  const sessionOk =
+    await checkAdminSession();
+
+
+  if (!sessionOk) {
+    return;
+  }
+
+
+  const visaResult =
+    await supabaseClient
+      .from("visa_applications")
+      .select("*")
+      .order(
+        "created_at",
+        { ascending: false }
+      );
+
+
+  const marriageResult =
+    await supabaseClient
+      .from("marriage_applications")
+      .select("*")
+      .order(
+        "created_at",
+        { ascending: false }
+      );
+
+
+  if (visaResult.error) {
+
+    console.error(
+      "Visa applications error:",
+      visaResult.error
+    );
+
+    visaApplications = [];
+
+  } else {
+
+    visaApplications =
+      visaResult.data || [];
+
+  }
+
+
+  if (marriageResult.error) {
+
+    console.error(
+      "Marriage applications error:",
+      marriageResult.error
+    );
+
+    marriageApplications = [];
+
+  } else {
+
+    marriageApplications =
+      marriageResult.data || [];
+
+  }
+
+
+  document.getElementById(
+    "loadingMessage"
+  ).style.display =
+    "none";
+
+
+  updateSummary();
+  renderCurrentSection();
+}
+
+
+function updateSummary() {
+
+  document.getElementById(
+    "visaCount"
+  ).textContent =
+    visaApplications.length;
+
+
+  document.getElementById(
+    "marriageCount"
+  ).textContent =
+    marriageApplications.length;
+
+
+  const allApplications =
+    [
+      ...visaApplications,
+      ...marriageApplications
+    ];
+
+
+  const reviewCount =
+    allApplications.filter(
+      item =>
+        String(
+          item.application_status || ""
+        )
+        .toLowerCase()
+        .includes("review")
+    ).length;
+
+
+  const approvedCount =
+    allApplications.filter(
+      item =>
+        String(
+          item.application_status || ""
+        )
+        .toLowerCase() ===
+        "approved"
+    ).length;
+
+
+  document.getElementById(
+    "reviewCount"
+  ).textContent =
+    reviewCount;
+
+
+  document.getElementById(
+    "approvedCount"
+  ).textContent =
+    approvedCount;
+}
+
+
+function showSection(section) {
+
+  currentSection =
+    section;
+
+
+  document.getElementById(
+    "visaTab"
+  ).classList.toggle(
+    "active",
+    section === "visa"
+  );
+
+
+  document.getElementById(
+    "marriageTab"
+  ).classList.toggle(
+    "active",
+    section === "marriage"
+  );
+
+
+  document.getElementById(
+    "sectionTitle"
+  ).textContent =
+    section === "visa"
+      ? "Visa Applications"
+      : "Marriage / Wedding Applications";
+
+
+  renderCurrentSection();
+}
+
+
+function getFilteredApplications() {
+
+  const source =
+    currentSection === "visa"
+      ? visaApplications
+      : marriageApplications;
+
+
+  const search =
+    document.getElementById(
+      "searchInput"
+    ).value
+    .trim()
+    .toLowerCase();
+
+
+  const statusFilter =
+    document.getElementById(
+      "statusFilter"
+    ).value
+    .trim()
+    .toLowerCase();
+
+
+  return source.filter(
+    item => {
+
+      const searchable =
+        [
+          item.reference_number,
+          item.applicant_name,
+          item.email,
+          item.passport_number,
+          item.nationality,
+          item.destination_country,
+          item.visa_type,
+          item.phone
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+
+      const itemStatus =
+        String(
+          item.application_status || ""
+        ).toLowerCase();
+
+
+      const searchMatch =
+        !search ||
+        searchable.includes(search);
+
+
+      const statusMatch =
+        !statusFilter ||
+        itemStatus.includes(
+          statusFilter
+        );
+
+
+      return (
+        searchMatch &&
+        statusMatch
+      );
+    }
+  );
+}
+
+
+function getStatusClass(status) {
+
+  const value =
+    String(status || "")
+      .toLowerCase();
+
+
+  if (
+    value.includes("approved")
+  ) {
+    return "status-approved";
+  }
+
+
+  if (
+    value.includes("rejected")
+  ) {
+    return "status-rejected";
+  }
+
+
+  if (
+    value.includes("review")
+  ) {
+    return "status-review";
+  }
+
+
+  return "status-submitted";
+}
+
+
+function renderCurrentSection() {
+
+  const rows =
+    document.getElementById(
+      "applicationRows"
+    );
+
+
+  const applications =
+    getFilteredApplications();
+
+
+  rows.innerHTML = "";
+
+
+  if (!applications.length) {
+
+    rows.innerHTML = `
+      <tr>
+        <td
+          colspan="9"
+          class="empty">
+          No applications found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  applications.forEach(
+    item => {
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+
+      const reference =
+        item.reference_number || "";
+
+
+      const applicant =
+        item.applicant_name || "";
+
+
+      const country =
+        item.destination_country ||
+        item.nationality ||
+        "";
+
+
+      const service =
+        currentSection === "visa"
+          ? item.visa_type || "Visa"
+          : "Marriage / Wedding";
+
+
+      const payment =
+        item.payment_status ||
+        item.payment_amount ||
+        "";
+
+
+      const status =
+        item.application_status ||
+        "Submitted";
+
+
+      const submitted =
+        item.submitted_at ||
+        item.created_at ||
+        "";
+
+
+      row.innerHTML = `
+
+        <td>
+          ${escapeHtml(reference)}
+        </td>
+
+        <td>
+          ${escapeHtml(applicant)}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            item.email || ""
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(country)}
+        </td>
+
+        <td>
+          ${escapeHtml(service)}
+        </td>
+
+        <td>
+          ${escapeHtml(payment)}
+        </td>
+
+        <td>
+          <span
+            class="status ${getStatusClass(status)}">
+            ${escapeHtml(status)}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            formatDate(submitted)
+          )}
+        </td>
+
+        <td>
+
+          <button
+            class="view-btn">
+            View
+          </button>
+
+          <button
+            class="delete-btn">
+            Delete
+          </button>
+
+        </td>
+      `;
+
+
+      row.querySelector(
+        ".view-btn"
+      ).addEventListener(
+        "click",
+        function() {
+
+          openApplication(
+            item,
+            currentSection
+          );
+
+        }
+      );
+
+
+      row.querySelector(
+        ".delete-btn"
+      ).addEventListener(
+        "click",
+        function() {
+
+          deleteApplication(
+            item,
+            currentSection
+          );
+
+        }
+      );
+
+
+      rows.appendChild(row);
+    }
+  );
+}
+
+
+function formatDate(value) {
+
+  if (!value) {
+    return "";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return value;
+  }
+
+
+  return date.toLocaleString();
+}
+
+
+function addDetail(
+  container,
+  label,
+  value
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+
+  box.className =
+    "detail";
+
+
+  box.innerHTML = `
+    <strong>
+      ${escapeHtml(label)}
+    </strong>
+
+    ${escapeHtml(
+      value === null ||
+      value === undefined ||
+      value === ""
+        ? "-"
+        : value
+    )}
+  `;
+
+
+  container.appendChild(
+    box
+  );
+}
+
+
+function openApplication(
+  item,
+  section
+) {
+
+  selectedApplication =
+    item;
+
+  selectedSection =
+    section;
+
+  selectedTable =
+    section === "visa"
+      ? "visa_applications"
+      : "marriage_applications";
+
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    section === "visa"
+      ? "Visa Application Details"
+      : "Marriage / Wedding Application Details";
+
+
+  const grid =
+    document.getElementById(
