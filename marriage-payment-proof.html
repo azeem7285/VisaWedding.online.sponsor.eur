@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8">a
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Marriage / Wedding - Payment Proof</title>
@@ -503,18 +503,26 @@ if (paymentProofUploadError) {
         gender: marriagePersonalInformation.gender || "",
         address: marriagePersonalInformation.address || "",
 
-        profile_photo_name:
-          marriageDocumentStatus.profilePhotoName || "",
-        passport_name:
-          marriageDocumentStatus.passportName || "",
-        identity_card_name:
-          marriageDocumentStatus.identityCardName || "",
+     profile_photo_name:
+  marriageDocumentStatus.profilePhotoName || "",
+profile_photo_path:
+  marriageDocumentStatus.profilePhotoPath || "",
 
+passport_name:
+  marriageDocumentStatus.passportName || "",
+passport_path:
+  marriageDocumentStatus.passportPath || "",
+
+identity_card_name:
+  marriageDocumentStatus.identityCardName || "",
+identity_card_path:
+  marriageDocumentStatus.identityCardPath || "",   
+            
         payment_method:
           marriagePaymentInformation.paymentMethod || "",
         payment_amount: "USD 20",
         payment_status: "Payment Proof Submitted",
-        payment_proof: paymentProof.name,
+        payment_proof: paymentProofPath,
         application_status:
           "Submitted - Awaiting Verification",
         submitted_at: new Date().toISOString()
