@@ -1292,5 +1292,289 @@ function openApplication(
       : "Marriage / Wedding Application Details";
 
 
-  const grid =
-    document.getElementById(
+const grid = document.getElementById("detailsGrid");
+
+    if (grid) {
+        grid.innerHTML = "";
+
+        addDetail(grid, "Reference Number", item.reference_number);
+        addDetail(grid, "Applicant Name", item.applicant_name);
+        addDetail(grid, "Email", item.email);
+        addDetail(grid, "Phone", item.phone);
+        addDetail(grid, "Nationality", item.nationality);
+        addDetail(
+            grid,
+            "Destination Country",
+            item.destination_country
+        );
+
+        if (section === "visa") {
+            addDetail(grid, "Visa Type", item.visa_type);
+            addDetail(grid, "Passport Number", item.passport_number);
+        } else {
+            addDetail(grid, "Date of Birth", item.date_of_birth);
+            addDetail(grid, "Gender", item.gender);
+            addDetail(grid, "Address", item.address);
+        }
+
+        addDetail(grid, "Payment Amount", item.payment_amount);
+        addDetail(grid, "Payment Status", item.payment_status);
+        addDetail(grid, "Application Status", item.application_status);
+        addDetail(
+            grid,
+            "Submitted At",
+            formatDate(item.submitted_at || item.created_at)
+        );
+    }
+
+    const statusSelect =
+        document.getElementById("statusSelect");
+
+    if (statusSelect) {
+        statusSelect.value =
+            item.application_status || "Submitted";
+    }
+
+    const modal =
+        document.getElementById("applicationModal");
+
+    if (modal) {
+        modal.style.display = "flex";
+    }
+}
+
+
+async function updateApplicationStatus() {
+    if (!selectedApplication || !selectedTable) {
+        alert("Please select an application first.");
+        return;
+    }
+
+    const statusSelect =
+        document.getElementById("statusSelect");
+
+    if (!statusSelect) {
+        return;
+    }
+
+    const newStatus = statusSelect.value;
+
+    const { error } =
+        await supabaseClient
+            .from(selectedTable)
+            .update({
+                application_status: newStatus
+            })
+            .eq("id", selectedApplication.id);
+
+    if (error) {
+        console.error("Status update error:", error);
+        alert("Status could not be updated.");
+        return;
+    }
+
+    selectedApplication.application_status =
+        newStatus;
+
+    alert("Application status updated successfully.");
+
+    closeModal();
+    await loadApplications();
+}
+
+
+async function deleteApplication(item, section) {
+    const table =
+        section === "visa"
+            ? "visa_applications"
+            : "marriage_applications";
+
+    const reference =
+        item.reference_number || "";
+
+    const confirmed = confirm(
+        `Are you sure you want to delete application ${reference}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from(table)
+            .delete()
+            .eq("id", item.id);
+
+    if (error) {
+        console.error("Delete application error:", error);
+        alert("Application could not be deleted.");
+        return;
+    }
+
+    alert("Application deleted successfully.");
+    await loadApplications();
+}
+
+
+function closeModal() {
+    const modal =
+        document.getElementById("applicationModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+    selectedApplication = null;
+    selectedTable = null;
+    selectedSection = null;
+}
+
+
+async function logoutAdmin() {
+    const { error } =
+        await supabaseClient.auth.signOut();
+
+    if (error) {
+        console.error("Logout error:", error);
+        alert("Logout failed.");
+        return;
+    }
+
+    window.location.href = "login.html";
+}
+
+
+async function refreshApplications() {
+    const loadingMessage =
+        document.getElementById("loadingMessage");
+
+    if (loadingMessage) {
+        loadingMessage.style.display = "block";
+        loadingMessage.textContent =
+            "Loading applications...";
+    }
+
+    await loadApplications();
+}
+
+
+const refreshButton =
+    document.getElementById("refreshButton");
+
+if (refreshButton) {
+    refreshButton.addEventListener(
+        "click",
+        refreshApplications
+    );
+}
+
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+if (logoutButton) {
+    logoutButton.addEventListener(
+        "click",
+        logoutAdmin
+    );
+}
+
+
+const closeModalButton =
+    document.getElementById("closeModal");
+
+if (closeModalButton) {
+    closeModalButton.addEventListener(
+        "click",
+        closeModal
+    );
+}
+
+
+const updateStatusButton =
+    document.getElementById("updateStatusButton");
+
+if (updateStatusButton) {
+    updateStatusButton.addEventListener(
+        "click",
+        updateApplicationStatus
+    );
+}
+
+
+const searchInput =
+    document.getElementById("searchInput");
+
+if (searchInput) {
+    searchInput.addEventListener(
+        "input",
+        renderCurrentSection
+    );
+}
+
+
+const statusFilter =
+    document.getElementById("statusFilter");
+
+if (statusFilter) {
+    statusFilter.addEventListener(
+        "change",
+        renderCurrentSection
+    );
+}
+
+
+const visaTab =
+    document.getElementById("visaTab");
+
+if (visaTab) {
+    visaTab.addEventListener(
+        "click",
+        function () {
+            showSection("visa");
+        }
+    );
+}
+
+
+const marriageTab =
+    document.getElementById("marriageTab");
+
+if (marriageTab) {
+    marriageTab.addEventListener(
+        "click",
+        function () {
+            showSection("marriage");
+        }
+    );
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+        try {
+            await loadApplications();
+        } catch (error) {
+            console.error(
+                "Admin panel loading error:",
+                error
+            );
+
+            const loadingMessage =
+                document.getElementById(
+                    "loadingMessage"
+                );
+
+            if (loadingMessage) {
+                loadingMessage.textContent =
+                    "Applications could not be loaded.";
+            }
+        }
+    }
+);
+
+</script>
+</body>
+</html>  
