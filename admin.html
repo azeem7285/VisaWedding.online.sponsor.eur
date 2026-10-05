@@ -1326,6 +1326,80 @@ const grid = document.getElementById("detailsGrid");
             formatDate(item.submitted_at || item.created_at)
         );
     }
+  const documentsArea = document.getElementById("documentsArea");
+
+if (documentsArea) {
+  documentsArea.innerHTML = "<strong>Uploaded Documents</strong>";
+
+  const addDocumentButton = async (label, filePath) => {
+    if (!filePath) return;
+
+    const row = document.createElement("div");
+    row.className = "document-row";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "View " + label;
+
+    button.addEventListener("click", async function () {
+      try {
+        let bucketName = "";
+
+        if (section === "marriage") {
+          bucketName = "marriage-private-documents";
+        } else {
+          bucketName = "visa-private-documents";
+        }
+
+        const { data, error } =
+          await supabaseClient.storage
+            .from(bucketName)
+            .createSignedUrl(filePath, 300);
+
+        if (error || !data?.signedUrl) {
+          console.error("Document open error:", error);
+          alert("Document could not be opened.");
+          return;
+        }
+
+        window.open(data.signedUrl, "_blank");
+      } catch (error) {
+        console.error("Document open error:", error);
+        alert("Document could not be opened.");
+      }
+    });
+
+    row.appendChild(button);
+    documentsArea.appendChild(row);
+  };
+
+  if (section === "marriage") {
+    addDocumentButton(
+      "Profile Photo",
+      item.profile_photo_path || item.profile_photo_name
+    );
+
+    addDocumentButton(
+      "Passport",
+      item.passport_path || item.passport_name
+    );
+
+    addDocumentButton(
+      "Identity Card / Residence Card",
+      item.identity_card_path || item.identity_card_name
+    );
+
+    addDocumentButton(
+      "Payment Proof",
+      item.payment_proof
+    );
+  } else if (section === "visa") {
+    addDocumentButton(
+      "Payment Proof",
+      item.payment_proof
+    );
+  }
+}
 
     const statusSelect =
         document.getElementById("statusSelect");
